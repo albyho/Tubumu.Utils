@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace TubumuMeeting.Core
+namespace Tubumu.Core
 {
     public struct Payload
     {
