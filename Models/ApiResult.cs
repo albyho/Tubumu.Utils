@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿
+using System.Text.Json.Serialization;
 
 namespace Tubumu.Core.Models
 {
@@ -11,7 +12,7 @@ namespace Tubumu.Core.Models
 
     public class ApiResult<T> : ApiResult
     {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public T Data { get; set; }
     }
 }

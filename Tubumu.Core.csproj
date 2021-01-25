@@ -13,7 +13,6 @@
     <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
     <PackageReference Include="MessagePack" Version="2.2.85" />
     <PackageReference Include="MessagePackAnalyzer" Version="2.2.85" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="PinYinConverterCore" Version="1.0.2" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -21,4 +20,7 @@
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Json\" />
+  </ItemGroup>
 </Project>

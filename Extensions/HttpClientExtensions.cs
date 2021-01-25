@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Tubumu.Core.Extensions.Object;
 
 namespace Tubumu.Core.Extensions
@@ -12,7 +12,7 @@ namespace Tubumu.Core.Extensions
         public static async Task<T> GetObjectAsync<T>(this HttpClient client, Uri requestUri)
         {
             var json = await client.GetStringAsync(requestUri);
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json, ObjectExtensions.DefaultJsonSerializerOptions);
         }
 
         public static Task<T> GetObjectAsync<T>(this HttpClient client, string requestUri)
@@ -25,7 +25,7 @@ namespace Tubumu.Core.Extensions
             var message = await client.PostAsync(requestUri, content, cancellationToken);
             message.EnsureSuccessStatusCode();
             var json = await message.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json, ObjectExtensions.DefaultJsonSerializerOptions);
         }
 
         public static Task<T> PostObjectAsync<T>(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)

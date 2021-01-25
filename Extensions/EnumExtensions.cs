@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Tubumu.Core.Extensions
 {
@@ -84,22 +85,22 @@ namespace Tubumu.Core.Extensions
             return GetEnumRawConstantValue(enumValue, type);
         }
 
-        public static string GetEnumStringValue(this Enum enumValue)
+        public static string GetEnumMemberValue(this Enum enumValue)
         {
             var type = enumValue.GetType();
             var enumName = Enum.GetName(type, enumValue);
-            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumStringValueAttribute), false);
+            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumMemberAttribute), false);
             if (attributes.Length > 0)
             {
-                return ((EnumStringValueAttribute)attributes[0]).Value;
+                return ((EnumMemberAttribute)attributes[0]).Value;
             }
             else
             {
-                return null;
+                throw new NotSupportedException();
             }
         }
 
-        public static string GetEnumStringValue(this object enumValue)
+        public static string GetEnumMemberValue(this object enumValue)
         {
             var type = enumValue.GetType();
             if (!type.IsEnum)
@@ -108,14 +109,14 @@ namespace Tubumu.Core.Extensions
             }
 
             var enumName = Enum.GetName(type, enumValue);
-            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumStringValueAttribute), false);
+            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumMemberAttribute), false);
             if (attributes.Length > 0)
             {
-                return ((EnumStringValueAttribute)attributes[0]).Value;
+                return ((EnumMemberAttribute)attributes[0]).Value;
             }
             else
             {
-                return null;
+                throw new NotSupportedException();
             }
         }
 
@@ -130,17 +131,17 @@ namespace Tubumu.Core.Extensions
             var result = new List<string>();
             foreach (var field in fields)
             {
-                var attribute = field.GetCustomAttributes(typeof(EnumStringValueAttribute), false).FirstOrDefault();
+                var attribute = field.GetCustomAttributes(typeof(EnumMemberAttribute), false).FirstOrDefault();
                 if (attribute != null)
                 {
-                    result.Add(((EnumStringValueAttribute)attribute).Value);
+                    result.Add(((EnumMemberAttribute)attribute).Value);
                 }
             }
 
             return result.ToArray();
         }
 
-        public static IDictionary<string, T> GetEnumStringValueMap<T>(this Type enumType)
+        public static IDictionary<string, T> GetEnumMemberValueMap<T>(this Type enumType)
         {
             if (!enumType.IsEnum)
             {
@@ -152,10 +153,10 @@ namespace Tubumu.Core.Extensions
             foreach (var value in values)
             {
                 var field = enumType.GetField(Enum.GetName(enumType, value));
-                var attribute = field.GetCustomAttributes(typeof(EnumStringValueAttribute), false).FirstOrDefault();
+                var attribute = field.GetCustomAttributes(typeof(EnumMemberAttribute), false).FirstOrDefault();
                 if (attribute != null)
                 {
-                    result.Add(((EnumStringValueAttribute)attribute).Value, value);
+                    result.Add(((EnumMemberAttribute)attribute).Value, value);
                 }
             }
 
@@ -175,7 +176,7 @@ namespace Tubumu.Core.Extensions
             var enumName = Enum.GetName(type, enumValue);
             if (enumName == null)
             {
-                return null;
+                throw new NotSupportedException();
             }
 
             var attributes = type.GetField(enumName).GetCustomAttributes(typeof(DisplayAttribute), false);
@@ -192,13 +193,4 @@ namespace Tubumu.Core.Extensions
         #endregion Private Methods
     }
 
-    public sealed class EnumStringValueAttribute : Attribute
-    {
-        public string Value { get; set; }
-
-        public EnumStringValueAttribute(string value)
-        {
-            Value = value;
-        }
-    }
 }

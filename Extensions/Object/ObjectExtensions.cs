@@ -5,12 +5,11 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Tubumu.Core.FastReflection;
-using Tubumu.Core.Json;
 
 namespace Tubumu.Core.Extensions.Object
 {
@@ -19,6 +18,17 @@ namespace Tubumu.Core.Extensions.Object
     /// </summary>
     public static class ObjectExtensions
     {
+        public static JsonSerializerOptions DefaultJsonSerializerOptions { get; }
+
+        static ObjectExtensions()
+        {
+            DefaultJsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            DefaultJsonSerializerOptions.Converters.Add(new JsonStringEnumMemberConverter());
+        }
+
         /// <summary>
         /// ToJson
         /// </summary>
@@ -26,24 +36,17 @@ namespace Tubumu.Core.Extensions.Object
         /// <returns></returns>
         public static string ToJson(this object source)
         {
-            return JsonConvert.SerializeObject(source);
+            return JsonSerializer.Serialize(source);
         }
 
         /// <summary>
-        /// <para>1、Key 使用 CamelCase 命名风格；</para>
-        /// <para>2、日期格式为：yyyy-MM-dd HH:mm:ss 。</para>
+        /// Key 使用 CamelCase 命名风格</para>
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
         public static string ToCamelCaseJson(this object source)
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                DateFormatString = "yyyy'-'MM'-'dd' 'HH':'mm':'ss", // 自定义日期格式。默认是 ISO8601 格式。
-                Converters = new JsonConverter[] { new EnumStringValueConverter() }
-            };
-            return JsonConvert.SerializeObject(source, settings);
+            return JsonSerializer.Serialize(source, DefaultJsonSerializerOptions);
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace Tubumu.Core.Extensions.Object
                 return default(T);
             }
 
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json);
         }
 
         /// <summary>
@@ -75,11 +78,7 @@ namespace Tubumu.Core.Extensions.Object
                 return default(T);
             }
 
-            var settings = new JsonSerializerSettings
-            {
-                Converters = new JsonConverter[] { new EnumStringValueConverter() }
-            };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            return JsonSerializer.Deserialize<T>(json, DefaultJsonSerializerOptions);
         }
 
         /// <summary>
@@ -308,6 +307,12 @@ namespace Tubumu.Core.Extensions.Object
 
         public static bool IsNumericType(this object o)
         {
+            var jsonElement = o as JsonElement?;
+            if (jsonElement != null)
+            {
+                return jsonElement.Value.ValueKind == JsonValueKind.Number;
+            }
+
             switch (Type.GetTypeCode(o.GetType()))
             {
                 case TypeCode.Byte:
@@ -330,6 +335,12 @@ namespace Tubumu.Core.Extensions.Object
 
         public static bool IsStringType(this object o)
         {
+            var jsonElement = o as JsonElement?;
+            if (jsonElement != null)
+            {
+                return jsonElement.Value.ValueKind == JsonValueKind.String;
+            }
+
             return o.GetType() == typeof(string);
         }
     }
