@@ -45,7 +45,7 @@ namespace Tubumu.Core.Extensions
 
         public static Task<T> PostObjectAsync<K, T>(this HttpClient client, Uri requestUri, K obj, CancellationToken cancellationToken)
         {
-            var json = obj.ToCamelCaseJson();
+            var json = obj.ToJson();
             var content = new StringContent(json);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             return client.PostObjectAsync<T>(requestUri, content, cancellationToken);

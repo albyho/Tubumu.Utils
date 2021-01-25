@@ -36,16 +36,6 @@ namespace Tubumu.Core.Extensions.Object
         /// <returns></returns>
         public static string ToJson(this object source)
         {
-            return JsonSerializer.Serialize(source);
-        }
-
-        /// <summary>
-        /// Key 使用 CamelCase 命名风格</para>
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static string ToCamelCaseJson(this object source)
-        {
             return JsonSerializer.Serialize(source, DefaultJsonSerializerOptions);
         }
 
