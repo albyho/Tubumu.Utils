@@ -3,9 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>Tubumu.Core</PackageId>
-    <Version>1.0.10</Version>
+    <Version>2.0.0</Version>
     <Authors>Alby</Authors>
     <Company>Tubumu</Company>
+
+    <RepositoryUrl>https://github.com/albyho/Tubumu.Core</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType>
+
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
