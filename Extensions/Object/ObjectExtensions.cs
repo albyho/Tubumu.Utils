@@ -52,22 +52,6 @@ namespace Tubumu.Core.Extensions.Object
                 return default(T);
             }
 
-            return JsonSerializer.Deserialize<T>(json);
-        }
-
-        /// <summary>
-        /// FromJson
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static T FromCamelCaseJson<T>(string json) where T : class
-        {
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return default(T);
-            }
-
             return JsonSerializer.Deserialize<T>(json, DefaultJsonSerializerOptions);
         }
 
