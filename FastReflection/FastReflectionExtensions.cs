@@ -14,7 +14,7 @@ namespace Tubumu.Core.FastReflection
         /// <param name="instance"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static object FastInvoke(this MethodInfo methodInfo, object instance, params object[] parameters)
+        public static object? FastInvoke(this MethodInfo methodInfo, object instance, params object[] parameters)
         {
             return FastReflectionCaches.MethodInvokerCache.Get(methodInfo).Invoke(instance, parameters);
         }

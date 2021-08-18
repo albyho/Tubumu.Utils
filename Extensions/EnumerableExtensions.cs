@@ -34,7 +34,7 @@ namespace Tubumu.Core.Extensions
         /// <typeparam name="T">枚举器类型参数</typeparam>
         /// <param name="source">要测试的枚举器</param>
         /// <returns>true:枚举器是null或者没有任何元素 false:枚举器不为null并且包含至少一个元素</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
         {
             return source == null || !source.Any();
         }
@@ -45,7 +45,7 @@ namespace Tubumu.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty<T>(this ICollection<T> source)
+        public static bool IsNullOrEmpty<T>(this ICollection<T>? source)
         {
             return source == null || source.Count == 0;
         }
@@ -56,7 +56,7 @@ namespace Tubumu.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty<T>(this T[] source)
+        public static bool IsNullOrEmpty<T>(this T[]? source)
         {
             return source == null || source.Length == 0;
         }

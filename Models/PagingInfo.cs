@@ -38,12 +38,12 @@ namespace Tubumu.Core.Models
         /// <summary>
         /// 排序信息
         /// </summary>
-        public SortInfo SortInfo { get; set; }
+        public SortInfo? SortInfo { get; set; }
 
         /// <summary>
         /// 排序信息（多个排序字段。优先级低于 SortInfo 属性。）
         /// </summary>
-        public SortInfo[] SortInfos { get; set; }
+        public SortInfo[]? SortInfos { get; set; }
 
         /// <summary>
         /// 是否排除元数据（如果不是第一页，没有必要重复获取 TotalItemCount 和 TotalPageCount）

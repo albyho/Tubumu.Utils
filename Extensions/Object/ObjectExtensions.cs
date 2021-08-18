@@ -45,11 +45,11 @@ namespace Tubumu.Core.Extensions.Object
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static T FromJson<T>(string json) where T : class
+        public static T? FromJson<T>(string json) where T : class
         {
             if (string.IsNullOrWhiteSpace(json))
             {
-                return default(T);
+                return default;
             }
 
             return JsonSerializer.Deserialize<T>(json, DefaultJsonSerializerOptions);
@@ -60,7 +60,7 @@ namespace Tubumu.Core.Extensions.Object
         /// </summary>
         /// <param name="source">源对象</param>
         /// <returns>新对象</returns>
-        public static object DeepCloneSlow(this object source)
+        public static object? DeepCloneSlow(this object source)
         {
             if (source == null)
             {
@@ -81,14 +81,14 @@ namespace Tubumu.Core.Extensions.Object
         /// </summary>
         /// <param name="source">源对象</param>
         /// <returns>新对象</returns>
-        public static T DeepCloneSlow<T>(this object source) where T : class
+        public static T? DeepCloneSlow<T>(this object source) where T : class
         {
             if (source == null || source.GetType() != typeof(T))
             {
                 return null;
             }
 
-            return (T)DeepCloneSlow(source);
+            return DeepCloneSlow(source) as T;
         }
 
         /// <summary>
@@ -97,14 +97,14 @@ namespace Tubumu.Core.Extensions.Object
         /// <typeparam name="T">新对象的类型</typeparam>
         /// <param name="source">现有对象</param>
         /// <returns>新的对象</returns>
-        public static T ToModel<T>(this object source) where T : new()
+        public static T? ToModel<T>(this object source) where T : new()
         {
             if (source == null)
             {
-                return default(T);
+                return default;
             }
 
-            T target = new T();
+            var target = new T();
 
             return UpdateFrom(target, source);
         }
@@ -116,11 +116,11 @@ namespace Tubumu.Core.Extensions.Object
         /// <param name="source">源对象</param>
         /// <param name="target">目标对象</param>
         /// <returns>源对象</returns>
-        public static T UpdateFrom<T>(this T source, object target)
+        public static T? UpdateFrom<T>(this T source, object target)
         {
             if (source == null)
             {
-                return default(T);
+                return default;
             }
 
             if (target == null)
@@ -150,7 +150,9 @@ namespace Tubumu.Core.Extensions.Object
                     }
                     else
                     {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                         targetPropertyAccessor.SetValue(source, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
                     }
                 }
             }
@@ -163,7 +165,7 @@ namespace Tubumu.Core.Extensions.Object
         /// <typeparam name="T"></typeparam>
         /// <param name="serializedObject"></param>
         /// <returns></returns>
-        public static T FromXml<T>(string serializedObject) where T : class
+        public static T? FromXml<T>(string serializedObject) where T : class
         {
             return FromXml(typeof(T), serializedObject) as T;
         }
@@ -174,9 +176,9 @@ namespace Tubumu.Core.Extensions.Object
         /// <param name="type"></param>
         /// <param name="serializedObject"></param>
         /// <returns></returns>
-        public static object FromXml(this Type type, string serializedObject)
+        public static object? FromXml(this Type type, string serializedObject)
         {
-            object filledObject = null;
+            object? filledObject = null;
             if (!string.IsNullOrEmpty(serializedObject))
             {
                 try
@@ -246,7 +248,7 @@ namespace Tubumu.Core.Extensions.Object
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static byte[] ToByteArray(this object obj)
+        public static byte[]? ToByteArray(this object obj)
         {
             if (obj == null)
             {
@@ -266,11 +268,11 @@ namespace Tubumu.Core.Extensions.Object
         /// <typeparam name="T"></typeparam>
         /// <param name="byteArray"></param>
         /// <returns></returns>
-        public static T FromByteArray<T>(this byte[] byteArray) where T : class
+        public static T? FromByteArray<T>(this byte[] byteArray) where T : class
         {
             if (byteArray == null)
             {
-                return default(T);
+                return default;
             }
             var binaryFormatter = new BinaryFormatter();
             using (var memoryStream = new MemoryStream(byteArray))

@@ -16,7 +16,7 @@ namespace Tubumu.Core.FastReflection
         /// <param name="instance"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        object Invoke(object instance, params object[] parameters);
+        object? Invoke(object instance, params object[]? parameters);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ namespace Tubumu.Core.FastReflection
     /// </summary>
     public class MethodInvoker : IMethodInvoker
     {
-        private readonly Func<object, object[], object> _invoker;
+        private readonly Func<object, object[]?, object?> _invoker;
 
         /// <summary>
         /// MethodInfo
@@ -52,12 +52,12 @@ namespace Tubumu.Core.FastReflection
         /// <param name="instance"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public object Invoke(object instance, params object[] parameters)
+        public object? Invoke(object instance, params object[]? parameters)
         {
             return _invoker(instance, parameters);
         }
 
-        private static Func<object, object[], object> CreateInvokeDelegate(MethodInfo methodInfo)
+        private static Func<object, object[]?, object?> CreateInvokeDelegate(MethodInfo methodInfo)
         {
             // Target: ((TInstance)instance).Method((T0)parameters[0], (T1)parameters[1], ...)
 
@@ -89,10 +89,10 @@ namespace Tubumu.Core.FastReflection
             // ((TInstance)instance).Method((T0)parameters[0], (T1)parameters[1], ...)
             if (methodCall.Type == typeof(void))
             {
-                var lambda = Expression.Lambda<Action<object, object[]>>(
+                var lambda = Expression.Lambda<Action<object, object[]?>>(
                         methodCall, instanceParameter, parametersParameter);
 
-                Action<object, object[]> execute = lambda.Compile();
+                Action<object, object[]?> execute = lambda.Compile();
                 return (instance, parameters) =>
                 {
                     execute(instance, parameters);
@@ -102,7 +102,7 @@ namespace Tubumu.Core.FastReflection
             else
             {
                 var castMethodCall = Expression.Convert(methodCall, typeof(object));
-                var lambda = Expression.Lambda<Func<object, object[], object>>(
+                var lambda = Expression.Lambda<Func<object, object[]?, object?>>(
                     castMethodCall, instanceParameter, parametersParameter);
 
                 return lambda.Compile();
@@ -111,7 +111,7 @@ namespace Tubumu.Core.FastReflection
 
         #region IMethodInvoker Members
 
-        object IMethodInvoker.Invoke(object instance, params object[] parameters)
+        object? IMethodInvoker.Invoke(object instance, params object[]? parameters)
         {
             return Invoke(instance, parameters);
         }

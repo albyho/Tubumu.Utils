@@ -26,7 +26,7 @@ namespace Tubumu.Core.Extensions
                     return ((MemberExpression)((UnaryExpression)expression.Body).Operand).Member.Name;
 
                 default:
-                    return null;
+                    throw new NotSupportedException();
             }
         }
 

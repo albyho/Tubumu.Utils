@@ -29,8 +29,8 @@ namespace Tubumu.Core.FastReflection
     /// </summary>
     public class PropertyAccessor : IPropertyAccessor
     {
-        private Func<object, object> _getter;
-        private MethodInvoker _setMethodInvoker;
+        private Func<object, object>? _getter;
+        private MethodInvoker? _setMethodInvoker;
 
         /// <summary>
         /// PropertyInfo
@@ -98,7 +98,7 @@ namespace Tubumu.Core.FastReflection
                 throw new NotSupportedException("Get method is not defined for this property.");
             }
 
-            return _getter(o);
+            return _getter!(o);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Tubumu.Core.FastReflection
                 throw new NotSupportedException("Set method is not defined for this property.");
             }
 
-            _setMethodInvoker.Invoke(o, new object[] { value });
+            _setMethodInvoker!.Invoke(o, new object[] { value });
         }
 
         #region IPropertyAccessor Members

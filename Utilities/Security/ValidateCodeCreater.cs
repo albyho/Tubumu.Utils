@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using SkiaSharp;
+using Tubumu.Core.Extensions;
 
 namespace Tubumu.Core.Utilities.Security
 {
@@ -9,22 +10,19 @@ namespace Tubumu.Core.Utilities.Security
     /// </summary>
     public class ValidationCodeCreater
     {
-        private string ValidationCode { get; set; }
-
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="codeLength"></param>
         /// <param name="validateCode"></param>
-        public ValidationCodeCreater(int codeLength, out string validateCode)
+        public ValidationCodeCreater(int codeLength, out string? validationCode)
         {
             if (codeLength < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(codeLength));
             }
 
-            ValidationCode = CreateValidationCode(codeLength);
-            validateCode = ValidationCode;
+            validationCode = CreateValidationCode(codeLength);
         }
 
         /// <summary>
@@ -32,12 +30,12 @@ namespace Tubumu.Core.Utilities.Security
         /// </summary>
         /// <param name="codeLength"></param>
         /// <returns></returns>
-        public string CreateValidationCode(int codeLength)
+        public string? CreateValidationCode(int codeLength)
         {
             var chars = "1234567890qwertyuipasdfghjklzxcvbnm";
             var rand = new Random(Guid.NewGuid().GetHashCode());
 
-            string result = null;
+            string? result = null;
             for (int i = 0; i < codeLength; i++)
             {
                 var r = rand.Next(chars.Length);
@@ -51,12 +49,16 @@ namespace Tubumu.Core.Utilities.Security
         /// <summary>
         /// 创建验证码的图片
         /// </summary>
-        public byte[] CreateValidationCodeGraphic()
+        public byte[] CreateValidationCodeGraphic(string validationCode)
         {
+            if(validationCode.IsNullOrWhiteSpace())
+            {
+                throw new Exception($"验证码参数 {nameof(validationCode)} 为空。");
+            }
             var rand = new Random(Guid.NewGuid().GetHashCode());
 
             var randAngle = 40;
-            var mapWidth = ValidationCode.Length * 18;
+            var mapWidth = validationCode.Length * 18;
             var mapHeight = 28;
 
             using (var bitmap = new SKBitmap(mapWidth, mapHeight))
@@ -74,7 +76,7 @@ namespace Tubumu.Core.Utilities.Security
                         canvas.DrawRect(new SKRect(x, y, x + 1, y + 1), paint);
                     }
 
-                    var chars = ValidationCode.ToCharArray();
+                    var chars = validationCode.ToCharArray();
                     var colors = new[] { SKColors.Black, SKColors.Red, SKColors.DarkBlue, SKColors.Green, SKColors.Orange, SKColors.Brown, SKColors.DarkCyan, SKColors.Purple };
                     var fonts = new[]
                     {

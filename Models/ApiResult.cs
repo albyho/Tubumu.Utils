@@ -7,12 +7,12 @@ namespace Tubumu.Core.Models
     {
         public int Code { get; set; } = 200;
 
-        public string Message { get; set; }
+        public string Message { get; set; } = "Success";
     }
 
     public class ApiResult<T> : ApiResult
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public T Data { get; set; }
+        public T? Data { get; set; }
     }
 }

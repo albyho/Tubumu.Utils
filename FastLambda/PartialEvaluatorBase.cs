@@ -10,7 +10,7 @@ namespace Tubumu.Core.FastLambda
     public abstract class PartialEvaluatorBase : ExpressionVisitor
     {
         private readonly IEvaluator _evaluator;
-        private HashSet<Expression> _candidates;
+        private HashSet<Expression>? _candidates;
 
         /// <summary>
         /// Constructor
@@ -26,7 +26,7 @@ namespace Tubumu.Core.FastLambda
         /// </summary>
         /// <param name="exp"></param>
         /// <returns></returns>
-        public Expression Eval(Expression exp)
+        public Expression? Eval(Expression exp)
         {
             _candidates = new Nominator().Nominate(exp);
             return _candidates.Count > 0 ? this.Visit(exp) : exp;
@@ -39,9 +39,9 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression Visit(Expression exp)
         {
-            if (exp == null)
+            if (_candidates == null)
             {
-                return null;
+                throw new NullReferenceException(nameof(_candidates));
             }
 
             if (_candidates.Contains(exp))
@@ -60,7 +60,7 @@ namespace Tubumu.Core.FastLambda
         private class Nominator : ExpressionVisitor
         {
             private readonly Func<Expression, bool> _fnCanBeEvaluated;
-            private HashSet<Expression> _candidates;
+            private HashSet<Expression>? _candidates;
             private bool _cannotBeEvaluated;
 
             public Nominator()
@@ -86,27 +86,29 @@ namespace Tubumu.Core.FastLambda
 
             protected override Expression Visit(Expression expression)
             {
-                if (expression != null)
+                if (_candidates == null)
                 {
-                    bool saveCannotBeEvaluated = _cannotBeEvaluated;
-                    _cannotBeEvaluated = false;
-
-                    base.Visit(expression);
-
-                    if (!_cannotBeEvaluated)
-                    {
-                        if (_fnCanBeEvaluated(expression))
-                        {
-                            _candidates.Add(expression);
-                        }
-                        else
-                        {
-                            _cannotBeEvaluated = true;
-                        }
-                    }
-
-                    _cannotBeEvaluated |= saveCannotBeEvaluated;
+                    throw new NullReferenceException(nameof(_candidates));
                 }
+
+                bool saveCannotBeEvaluated = _cannotBeEvaluated;
+                _cannotBeEvaluated = false;
+
+                base.Visit(expression);
+
+                if (!_cannotBeEvaluated)
+                {
+                    if (_fnCanBeEvaluated(expression))
+                    {
+                        _candidates.Add(expression);
+                    }
+                    else
+                    {
+                        _cannotBeEvaluated = true;
+                    }
+                }
+
+                _cannotBeEvaluated |= saveCannotBeEvaluated;
 
                 return expression;
             }

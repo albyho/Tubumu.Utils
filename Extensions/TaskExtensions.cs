@@ -22,7 +22,7 @@ namespace Tubumu.Core.Extensions
         /// A task that completes with the result of the specified <paramref name="task"/> or
         /// faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
-        public static async Task WithTimeout(this Task task, TimeSpan timeout, Action cancelled = null)
+        public static async Task WithTimeout(this Task task, TimeSpan timeout, Action? cancelled = null)
         {
             using (var timerCancellation = new CancellationTokenSource())
             {
@@ -56,7 +56,7 @@ namespace Tubumu.Core.Extensions
         /// A task that completes with the result of the specified <paramref name="task"/> or
         /// faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
-        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout, Action cancelled = null)
+        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout, Action? cancelled = null)
         {
             await WithTimeout((Task)task, timeout, cancelled).ConfigureAwait(false);
             return task.GetAwaiter().GetResult();
@@ -93,8 +93,9 @@ namespace Tubumu.Core.Extensions
             switch (task.Status)
             {
                 case TaskStatus.RanToCompletion:
-                    return resultSetter.TrySetResult(task is Task<TResult> taskLocal ? taskLocal.Result : default);
-
+#pragma warning disable CS8604 // Possible null reference argument.
+                    return resultSetter.TrySetResult(task is Task<TResult> taskLocal ? taskLocal.Result! : default);
+#pragma warning restore CS8604 // Possible null reference argument.
                 case TaskStatus.Faulted:
                     return resultSetter.TrySetException(task.Exception.InnerExceptions);
 
@@ -130,12 +131,12 @@ namespace Tubumu.Core.Extensions
             return WithTimeout(taskCompletionSource, timeout, null);
         }
 
-        public static TaskCompletionSource<TResult> WithTimeout<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TimeSpan timeout, Action cancelled)
+        public static TaskCompletionSource<TResult> WithTimeout<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TimeSpan timeout, Action? cancelled)
         {
-            Timer timer = null;
+            Timer? timer = null;
             timer = new Timer(state =>
             {
-                timer.Dispose();
+                timer?.Dispose();
                 if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
                 {
                     taskCompletionSource.TrySetCanceled();
@@ -194,7 +195,7 @@ namespace Tubumu.Core.Extensions
         /// <returns>
         /// The result of the operation.
         /// </returns>
-        public static T AwaitResult<T>(this Task<T> task)
+        public static T? AwaitResult<T>(this Task<T> task)
         {
             return new SynchronousAwaiter<T>(task).GetResult();
         }
@@ -222,7 +223,7 @@ namespace Tubumu.Core.Extensions
         /// <returns>
         /// The result of the operation.
         /// </returns>
-        public static T AwaitResult<T>(this ValueTask<T> task)
+        public static T? AwaitResult<T>(this ValueTask<T> task)
         {
             return new SynchronousAwaiter<T>(task).GetResult();
         }
@@ -333,12 +334,12 @@ namespace Tubumu.Core.Extensions
         /// <summary>
         /// The exception thrown by the asynchronous operation.
         /// </summary>
-        private Exception exception;
+        private Exception? exception;
 
         /// <summary>
         /// The result of the asynchronous operation.
         /// </summary>
-        private TResult result;
+        private TResult? result;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronousAwaiter{TResult}"/> class.
@@ -375,7 +376,7 @@ namespace Tubumu.Core.Extensions
         /// <returns>
         /// The result of the asynchronous operation.
         /// </returns>
-        public TResult GetResult()
+        public TResult? GetResult()
         {
             this.manualResetEvent.WaitOne();
             return this.exception != null ? throw this.exception : this.result;
@@ -390,7 +391,7 @@ namespace Tubumu.Core.Extensions
         /// <returns>
         /// The result of the asynchronous operation.
         /// </returns>
-        public bool TryGetResult(out TResult operationResult)
+        public bool TryGetResult(out TResult? operationResult)
         {
             if (this.IsComplete)
             {
@@ -460,7 +461,7 @@ namespace Tubumu.Core.Extensions
         /// <summary>
         /// The exception thrown by the asynchronous operation.
         /// </summary>
-        private Exception exception;
+        private Exception? exception;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronousAwaiter{TResult}"/> class.

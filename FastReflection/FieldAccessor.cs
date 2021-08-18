@@ -36,9 +36,10 @@ namespace Tubumu.Core.FastReflection
         public FieldAccessor(FieldInfo fieldInfo)
         {
             FieldInfo = fieldInfo;
+            _getter = InitializeGet(fieldInfo);
         }
 
-        private void InitializeGet(FieldInfo fieldInfo)
+        private Func<object, object> InitializeGet(FieldInfo fieldInfo)
         {
             // target: (object)(((TInstance)instance).Field)
 
@@ -58,7 +59,7 @@ namespace Tubumu.Core.FastReflection
             // Lambda expression
             var lambda = Expression.Lambda<Func<object, object>>(castFieldValue, instance);
 
-            _getter = lambda.Compile();
+            return lambda.Compile();
         }
 
         /// <summary>

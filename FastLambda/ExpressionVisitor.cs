@@ -22,11 +22,6 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual Expression Visit(Expression exp)
         {
-            if (exp == null)
-            {
-                return exp;
-            }
-
             switch (exp.NodeType)
             {
                 case ExpressionType.Negate:
@@ -102,7 +97,7 @@ namespace Tubumu.Core.FastLambda
                     return VisitListInit((ListInitExpression)exp);
 
                 default:
-                    throw new NotSupportedException(String.Format("Unhandled expression type: '{0}'", exp.NodeType));
+                    throw new NotSupportedException($"Unhandled expression type: '{exp.NodeType}'");
             }
         }
 
@@ -125,7 +120,7 @@ namespace Tubumu.Core.FastLambda
                     return VisitMemberListBinding((MemberListBinding)binding);
 
                 default:
-                    throw new NotSupportedException(String.Format("Unhandled binding type '{0}'", binding.BindingType));
+                    throw new NotSupportedException($"Unhandled binding type '{binding.BindingType}'");
             }
         }
 
@@ -273,7 +268,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual ReadOnlyCollection<Expression> VisitExpressionList(ReadOnlyCollection<Expression> original)
         {
-            List<Expression> list = null;
+            List<Expression>? list = null;
             for (int i = 0, n = original.Count; i < n; i++)
             {
                 Expression p = Visit(original[i]);
@@ -342,7 +337,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual IEnumerable<MemberBinding> VisitBindingList(ReadOnlyCollection<MemberBinding> original)
         {
-            List<MemberBinding> list = null;
+            List<MemberBinding>? list = null;
             for (int i = 0, n = original.Count; i < n; i++)
             {
                 MemberBinding b = VisitBinding(original[i]);
@@ -375,7 +370,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual IEnumerable<ElementInit> VisitElementInitializerList(ReadOnlyCollection<ElementInit> original)
         {
-            List<ElementInit> list = null;
+            List<ElementInit>? list = null;
             for (int i = 0, n = original.Count; i < n; i++)
             {
                 ElementInit init = VisitElementInitializer(original[i]);

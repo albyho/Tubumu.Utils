@@ -67,11 +67,6 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression Visit(Expression exp)
         {
-            if (exp == null)
-            {
-                return exp;
-            }
-
             Hash((int)exp.NodeType).Hash(exp.Type);
             return base.Visit(exp);
         }

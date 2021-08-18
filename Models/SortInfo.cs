@@ -16,7 +16,7 @@ namespace Tubumu.Core.Models
         /// <summary>
         /// 排序字段
         /// </summary>
-        public string Sort { get; set; }
+        public string? Sort { get; set; }
     }
 
     /// <summary>

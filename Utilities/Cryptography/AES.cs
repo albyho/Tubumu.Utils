@@ -24,7 +24,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="mode"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] EncryptFromByteArrayToByteArray(Byte[] inputByteArray, PaddingMode padding, CipherMode mode, string key = null)
+        public static byte[] EncryptFromByteArrayToByteArray(byte[] inputByteArray, PaddingMode padding, CipherMode mode, string? key = null)
         {
             if (inputByteArray == null)
             {
@@ -38,7 +38,7 @@ namespace Tubumu.Core.Utilities.Cryptography
             aes.Key = EnsureKey(key);
             aes.IV = DefaultIV;
 
-            Byte[] cipherBytes;
+            byte[] cipherBytes;
             using (var ms = new MemoryStream())
             {
                 var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
@@ -56,7 +56,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="inputByteArray"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] EncryptFromByteArrayToByteArray(Byte[] inputByteArray, string key = null)
+        public static byte[] EncryptFromByteArrayToByteArray(byte[] inputByteArray, string? key = null)
         {
             if (inputByteArray == null)
             {
@@ -70,16 +70,14 @@ namespace Tubumu.Core.Utilities.Cryptography
             aes.Key = EnsureKey(key);
             aes.IV = DefaultIV;
 
-            Byte[] cipherBytes;
             using (var ms = new MemoryStream())
             {
                 var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
                 cs.Write(inputByteArray, 0, inputByteArray.Length);
                 cs.FlushFinalBlock();
-                cipherBytes = ms.ToArray();
+                return ms.ToArray();
             }
 
-            return cipherBytes;
         }
 
         /// <summary>
@@ -88,9 +86,9 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="encryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] EncryptFromStringToByteArray(string encryptString, string key = null)
+        public static byte[] EncryptFromStringToByteArray(string encryptString, string? key = null)
         {
-            Byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+            var inputByteArray = Encoding.UTF8.GetBytes(encryptString);
 
             return EncryptFromByteArrayToByteArray(inputByteArray, key);
         }
@@ -101,9 +99,9 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="encryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string EncryptFromStringToHex(string encryptString, string key = null)
+        public static string EncryptFromStringToHex(string encryptString, string? key = null)
         {
-            Byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+            var inputByteArray = Encoding.UTF8.GetBytes(encryptString);
             var encryptBuffer = EncryptFromByteArrayToByteArray(inputByteArray, key);
             var sb = new StringBuilder();
             foreach (var item in encryptBuffer)
@@ -112,7 +110,6 @@ namespace Tubumu.Core.Utilities.Cryptography
             }
 
             return sb.ToString();
-            //return BitConverter.ToString(encryptBuffer).Replace("-", "");
         }
 
         /// <summary>
@@ -121,9 +118,9 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="encryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string EncryptFromStringToBase64(string encryptString, string key = null)
+        public static string EncryptFromStringToBase64(string encryptString, string? key = null)
         {
-            Byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+            var inputByteArray = Encoding.UTF8.GetBytes(encryptString);
             var encryptBuffer = EncryptFromByteArrayToByteArray(inputByteArray, key);
 
             return Convert.ToBase64String(encryptBuffer);
@@ -139,7 +136,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="inputByteArray"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] DecryptFromByteArrayToByteArray(Byte[] inputByteArray, string key = null)
+        public static byte[] DecryptFromByteArrayToByteArray(byte[] inputByteArray, string? key = null)
         {
             if (inputByteArray == null)
             {
@@ -170,7 +167,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="decryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] DecryptFromHexToByteArray(string decryptString, string key = null)
+        public static byte[] DecryptFromHexToByteArray(string decryptString, string? key = null)
         {
             if (decryptString == null)
             {
@@ -192,7 +189,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="decryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string DecryptFromHexToString(string decryptString, string key = null)
+        public static string DecryptFromHexToString(string decryptString, string? key = null)
         {
             var buffer = ByteArrayFromHexString(decryptString);
             if (buffer.IsNullOrEmpty())
@@ -209,7 +206,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="decryptString"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Byte[] DecryptFromBase64ToByteArray(string decryptString, string key = null)
+        public static byte[] DecryptFromBase64ToByteArray(string decryptString, string? key = null)
         {
             if (decryptString == null)
             {
@@ -229,7 +226,7 @@ namespace Tubumu.Core.Utilities.Cryptography
 
         #region Private Methods
 
-        private static Byte[] ByteArrayFromHexString(string hexString)
+        private static byte[] ByteArrayFromHexString(string hexString)
         {
             if (hexString.IsNullOrWhiteSpace() || hexString.Length % 2 != 0)
             {
@@ -244,7 +241,7 @@ namespace Tubumu.Core.Utilities.Cryptography
             return buffer;
         }
 
-        private static Byte[] EnsureKey(string key)
+        private static byte[] EnsureKey(string? key)
         {
             if (key != null)
             {

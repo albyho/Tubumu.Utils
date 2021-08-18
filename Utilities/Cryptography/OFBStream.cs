@@ -49,7 +49,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         {
             if (!CanRead)
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("Cannot read.");
             }
 
             int toRead = Math.Min(count, _readWriteBuffer.Length);
@@ -85,7 +85,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         {
             if (!CanWrite)
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("Cannot write.");
             }
 
             int readWriteBufferOffset = 0;
@@ -161,7 +161,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <returns></returns>
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException(nameof(Seek));
         }
 
         /// <summary>
@@ -169,8 +169,8 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// </summary>
         public override long Position
         {
-            get { throw new NotSupportedException(); }
-            set { throw new NotSupportedException(); }
+            get { throw new NotSupportedException(nameof(Position)); }
+            set { throw new NotSupportedException(nameof(Position)); }
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// </summary>
         public override long Length
         {
-            get { throw new NotSupportedException(); }
+            get { throw new NotSupportedException(nameof(Length)); }
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// <param name="value"></param>
         public override void SetLength(long value)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException(nameof(SetLength));
         }
     }
 

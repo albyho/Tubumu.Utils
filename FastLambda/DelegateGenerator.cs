@@ -13,7 +13,7 @@ namespace Tubumu.Core.FastLambda
         private static readonly MethodInfo IndexerInfo = typeof(List<object>).GetMethod("get_Item");
 
         private int _parameterCount;
-        private ParameterExpression _parametersExpression;
+        private ParameterExpression? _parametersExpression;
 
         /// <summary>
         /// Generate
@@ -43,6 +43,11 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitConstant(ConstantExpression c)
         {
+            if(_parametersExpression == null)
+            {
+                throw new NullReferenceException(nameof(_parametersExpression));
+            }
+
             Expression exp = Expression.Call(
                 _parametersExpression,
                 IndexerInfo,

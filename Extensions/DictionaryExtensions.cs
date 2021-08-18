@@ -146,7 +146,10 @@ namespace Tubumu.Core.Extensions
                 {
                     return false;
                 }
-                if (!kvp.Value.Equals(value))
+                if ((value == null && kvp.Value != null) ||
+                    (value != null && kvp.Value == null) ||
+                    (value != null && kvp.Value != null && !value.Equals(kvp.Value))
+                    )
                 {
                     return false;
                 }
@@ -163,7 +166,11 @@ namespace Tubumu.Core.Extensions
             int hash = 0;
             foreach (var kvp in obj)
             {
-                hash = hash ^ kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode();
+                hash ^= kvp.Key!.GetHashCode();
+                if (kvp.Value != null)
+                {
+                    hash ^= kvp.Value.GetHashCode();
+                }
             }
             return hash;
         }

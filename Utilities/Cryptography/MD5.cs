@@ -16,7 +16,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// </summary>
         /// <param name="inputByteArray"></param>
         /// <returns></returns>
-        public static Byte[] EncryptFromByteArrayToByteArray(Byte[] inputByteArray)
+        public static byte[] EncryptFromByteArrayToByteArray(Byte[] inputByteArray)
         {
             //var md5 = System.Security.Cryptography.MD5.Create();
             var provider = new MD5CryptoServiceProvider();
@@ -28,7 +28,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// </summary>
         /// <param name="encryptString"></param>
         /// <returns></returns>
-        public static Byte[] EncryptFromStringToByteArray(string encryptString)
+        public static byte[]? EncryptFromStringToByteArray(string encryptString)
         {
             if (encryptString.IsNullOrWhiteSpace())
             {
@@ -55,7 +55,7 @@ namespace Tubumu.Core.Utilities.Cryptography
         /// </summary>
         /// <param name="encryptString"></param>
         /// <returns></returns>
-        public static string EncryptFromStringToBase64(string encryptString)
+        public static string? EncryptFromStringToBase64(string encryptString)
         {
             if (encryptString.IsNullOrWhiteSpace())
             {

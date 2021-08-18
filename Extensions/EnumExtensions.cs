@@ -16,7 +16,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="enumValue">枚举值</param>
         /// <returns>DisplayName</returns>
-        public static string GetEnumDisplayName(this object enumValue)
+        public static string? GetEnumDisplayName(this object enumValue)
         {
             if (enumValue == null)
             {
@@ -51,7 +51,7 @@ namespace Tubumu.Core.Extensions
             }
 
             return from e in Enum.GetValues(type).Cast<T>()
-                   select new KeyValuePair<T, string>(e, e.GetEnumDisplayName(type));
+                   select new KeyValuePair<T, string?>(e, e.GetEnumDisplayName(type));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Tubumu.Core.Extensions
             }
             else
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("GetEnumMemberValue");
             }
         }
 
@@ -116,7 +116,7 @@ namespace Tubumu.Core.Extensions
             }
             else
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("GetEnumMemberValue");
             }
         }
 
@@ -171,18 +171,18 @@ namespace Tubumu.Core.Extensions
             return filedInfo.GetRawConstantValue().ToString();
         }
 
-        private static string GetEnumDisplayName(this object enumValue, Type type)
+        private static string? GetEnumDisplayName(this object enumValue, Type type)
         {
             var enumName = Enum.GetName(type, enumValue);
             if (enumName == null)
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("GetEnumDisplayName");
             }
 
             var attributes = type.GetField(enumName).GetCustomAttributes(typeof(DisplayAttribute), false);
             if (attributes.Length > 0)
             {
-                return ((DisplayAttribute)attributes[0]).GetName(); // TODO: (alby)如果 DisplayAttribute 的 DisplayName 属性为 IsNullOrWhiteSpace ,尝试从资源文件获取
+                return ((DisplayAttribute)attributes[0]).GetName();
             }
             else
             {

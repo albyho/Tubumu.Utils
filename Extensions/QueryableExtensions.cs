@@ -293,8 +293,10 @@ namespace Tubumu.Core.Extensions
 
         private class LeftJoinIntermediate<TOuter, TInner>
         {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
             public TOuter OneOuter { get; set; }
             public IEnumerable<TInner> ManyInners { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         }
 
         private class Replacer : ExpressionVisitor
@@ -359,7 +361,11 @@ namespace Tubumu.Core.Extensions
         /// <returns></returns>
         public static IOrderedQueryable<T> Order<T>(this IQueryable<T> source, SortInfo sortInfo, bool anotherLevel = false)
         {
-            return Order(source, sortInfo.Sort, sortInfo.SortDir == SortDirection.DESC, anotherLevel);
+            if (sortInfo.Sort.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentException(nameof(sortInfo.Sort));
+            }
+            return Order(source, sortInfo.Sort!, sortInfo.SortDir == SortDirection.DESC, anotherLevel);
         }
 
         /// <summary>
@@ -371,9 +377,9 @@ namespace Tubumu.Core.Extensions
         /// <param name="descending"></param>
         /// <param name="anotherLevel"></param>
         /// <returns></returns>
-        public static IOrderedQueryable<T> Order<T>(this IQueryable<T> source, ICollection<SortInfo> sortInfos)
+        public static IOrderedQueryable<T>? Order<T>(this IQueryable<T> source, ICollection<SortInfo> sortInfos)
         {
-            IOrderedQueryable<T> result = null;
+            IOrderedQueryable<T>? result = null;
             var isFirst = true;
             foreach (var sortInfo in sortInfos)
             {
@@ -461,7 +467,7 @@ namespace Tubumu.Core.Extensions
                 : query;
         }
 
-        private static MethodInfo GetEnumerableMethod(string name, int parameterCount = 0, Func<MethodInfo, bool> predicate = null)
+        private static MethodInfo GetEnumerableMethod(string name, int parameterCount = 0, Func<MethodInfo, bool>? predicate = null)
         {
             return typeof(Enumerable)
                 .GetTypeInfo()

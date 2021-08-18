@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Tubumu.Core.FastLambda
@@ -8,7 +9,7 @@ namespace Tubumu.Core.FastLambda
     /// </summary>
     public class ConstantExtractor : ExpressionVisitor
     {
-        private List<object> _constants;
+        private List<object>? _constants;
 
         /// <summary>
         /// Extract
@@ -29,7 +30,12 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitConstant(ConstantExpression c)
         {
-            _constants.Add(c.Value);
+            if(_constants == null)
+            {
+                throw new NullReferenceException(nameof(_constants));
+            }
+
+            _constants?.Add(c.Value);
             return c;
         }
     }

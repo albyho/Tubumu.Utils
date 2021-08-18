@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Tubumu.Core.FastReflection
 {
@@ -18,6 +19,11 @@ namespace Tubumu.Core.FastReflection
         /// <returns></returns>
         public TValue Get(TKey key)
         {
+            if(key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
             TValue value;
             lock (key)
             {

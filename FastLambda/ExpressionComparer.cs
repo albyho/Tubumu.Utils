@@ -222,7 +222,7 @@ namespace Tubumu.Core.FastLambda
                     return CompareListInit((ListInitExpression)x, (ListInitExpression)y);
 
                 default:
-                    throw new NotSupportedException(String.Format("Unhandled expression type: '{0}'", x.NodeType));
+                    throw new NotSupportedException($"Unhandled expression type: '{x.NodeType}'");
             }
         }
 

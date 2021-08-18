@@ -138,7 +138,7 @@ namespace Tubumu.Core.Extensions
         /// <param name="rowNum"></param>
         /// <param name="colNum"></param>
         /// <returns></returns>
-        public static CellRangeAddress GetStrictCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
+        public static CellRangeAddress? GetStrictCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
         {
             int regionsCount = sheet.NumMergedRegions;
             for (int i = 0; i < regionsCount; i++)
@@ -162,7 +162,7 @@ namespace Tubumu.Core.Extensions
         /// <param name="rowNum"></param>
         /// <param name="colNum"></param>
         /// <returns></returns>
-        public static CellRangeAddress GetCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
+        public static CellRangeAddress? GetCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
         {
             int regionsCount = sheet.NumMergedRegions;
             for (int i = 0; i < regionsCount; i++)

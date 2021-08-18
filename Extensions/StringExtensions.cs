@@ -124,7 +124,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty(this string source)
+        public static bool IsNullOrEmpty(this string? source)
         {
             return String.IsNullOrEmpty(source);
         }
@@ -134,7 +134,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool IsNullOrWhiteSpace(this string source)
+        public static bool IsNullOrWhiteSpace(this string? source)
         {
             return string.IsNullOrWhiteSpace(source);
         }
@@ -144,7 +144,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string NullOrWhiteSpaceReplace(this string source, string newValue)
+        public static string NullOrWhiteSpaceReplace(this string? source, string newValue)
         {
             return !string.IsNullOrWhiteSpace(source) ? source : newValue;
         }
@@ -154,7 +154,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string NullOrEmptyReplace(this string source, string newValue)
+        public static string NullOrEmptyReplace(this string? source, string newValue)
         {
             return !string.IsNullOrEmpty(source) ? source : newValue;
         }
@@ -410,7 +410,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="sqlString"></param>
         /// <returns></returns>
-        public static string SqlFilter(this string sqlString)
+        public static string? SqlFilter(this string sqlString)
         {
             if (sqlString == null)
             {
@@ -434,7 +434,7 @@ namespace Tubumu.Core.Extensions
         /// </summary>
         /// <param name="source">源对象</param>
         /// <returns>字符串</returns>
-        public static string ToNullableString<T>(this T source) where T : class
+        public static string? ToNullableString<T>(this T source) where T : class
         {
             return source?.ToString();
         }
@@ -456,7 +456,7 @@ namespace Tubumu.Core.Extensions
         /// <param name="source"></param>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static string WithUrl(this string source, string url)
+        public static string? WithUrl(this string source, string url)
         {
             if (source == null || url == null)
             {

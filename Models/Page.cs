@@ -22,5 +22,12 @@ namespace Tubumu.Core.Models
         /// 总分页数
         /// </summary>
         public int TotalPageCount { get; set; }
+
+        public Page(List<T> list, int totalItemCount, int totalPageCount)
+        {
+            List = list;
+            TotalItemCount = totalItemCount;
+            TotalPageCount = totalPageCount;
+        }
     }
 }
