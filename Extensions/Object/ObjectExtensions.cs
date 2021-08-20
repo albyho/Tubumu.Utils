@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -189,8 +190,9 @@ namespace Tubumu.Core.Extensions.Object
                         filledObject = serializer.Deserialize(reader);
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Debug.WriteLine($"FromXml() | {ex.Message}");
                     filledObject = null;
                 }
             }

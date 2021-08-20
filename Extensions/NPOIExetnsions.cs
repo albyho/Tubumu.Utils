@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -187,12 +188,12 @@ namespace Tubumu.Core.Extensions
             {
                 book = new XSSFWorkbook(path);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine($"OpenExecelFile failure | {ex.Message}");
                 var file = new FileStream(path, FileMode.Open, FileAccess.Read);
                 book = new HSSFWorkbook(file);
             }
-
             return book;
         }
 
