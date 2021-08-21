@@ -1,12 +1,15 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
 namespace Tubumu.Core.Extensions.Ip
 {
     /// <summary>
-    /// IpAddressExtensions
+    /// IPAddressExtensions
     /// </summary>
-    public static class IpAddressExtensions
+    public static class IPAddressExtensions
     {
         private static readonly Regex IpV4Regex = new Regex(@"^\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3}$", RegexOptions.Compiled);
 
@@ -90,6 +93,28 @@ namespace Tubumu.Core.Extensions.Ip
             }
 
             return IpV4Regex.IsMatch(ip);
+        }
+
+        /// <summary>
+        /// 获取本机 IP 地址
+        /// </summary>
+        /// <param name="addressFamily"></param>
+        /// <returns></returns>
+        public static IEnumerable<IPAddress> GetLocalIPAddresses(AddressFamily? addressFamily = null)
+        {
+            var ips = new List<IPAddress>();
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            return host.AddressList.Where(m => addressFamily == null || m.AddressFamily == addressFamily);
+        }
+
+        /// <summary>
+        /// 获取一个本机的 IPv4 地址
+        /// </summary>
+        /// <param name="addressFamily"></param>
+        /// <returns></returns>
+        public static IPAddress? GetLocalIPv4IPAddress()
+        {
+            return GetLocalIPAddresses(AddressFamily.InterNetwork).FirstOrDefault();
         }
     }
 }
