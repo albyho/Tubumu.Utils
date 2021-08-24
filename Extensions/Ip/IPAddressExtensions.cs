@@ -114,7 +114,7 @@ namespace Tubumu.Core.Extensions.Ip
         /// <returns></returns>
         public static IPAddress? GetLocalIPv4IPAddress()
         {
-            return GetLocalIPAddresses(AddressFamily.InterNetwork).FirstOrDefault();
+            return GetLocalIPAddresses(AddressFamily.InterNetwork).Where(m => m != IPAddress.Loopback).FirstOrDefault();
         }
     }
 }
