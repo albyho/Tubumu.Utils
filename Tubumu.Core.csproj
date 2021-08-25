@@ -6,9 +6,10 @@
     <Nullable>enable</Nullable>
 
     <PackageId>Tubumu.Core</PackageId>
-    <Version>3.0.0</Version>
+    <Version>3.1.0</Version>
     <Authors>Alby</Authors>
     <Company>Tubumu</Company>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <RepositoryUrl>https://github.com/albyho/Tubumu.Core</RepositoryUrl> 
     <RepositoryType>git</RepositoryType>
@@ -27,4 +28,7 @@
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+      <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
