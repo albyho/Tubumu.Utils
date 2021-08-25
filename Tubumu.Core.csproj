@@ -14,6 +14,9 @@
     <RepositoryUrl>https://github.com/albyho/Tubumu.Core</RepositoryUrl> 
     <RepositoryType>git</RepositoryType>
 
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
