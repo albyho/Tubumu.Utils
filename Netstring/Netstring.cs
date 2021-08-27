@@ -114,7 +114,7 @@ namespace Tubumu.Core
 
                 if (cc < '0'/*0x30*/ || cc > '9'/*0x39*/)
                 {
-                    throw new Exception($"Unexpected character ${cc} found at offset ");
+                    throw new Exception($"Unexpected character {cc} found at offset");
                 }
 
                 if (len == 0 && i > offset)
