@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -78,9 +79,9 @@ namespace Tubumu.Core.Extensions
         /// <param name="source"></param>
         /// <param name="len"></param>
         /// <returns></returns>
-        public static string Substr(this string source, int len)
+        public static string SubstringWithEllipsis(this string source, int len)
         {
-            return source.Substr(len, "...");
+            return source.Substring(len, "...");
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace Tubumu.Core.Extensions
         /// <param name="len"></param>
         /// <param name="att"></param>
         /// <returns></returns>
-        public static string Substr(this string source, int len, string att)
+        public static string Substring(this string source, int len, string att)
         {
             if (string.IsNullOrEmpty(source))
             {
@@ -224,68 +225,6 @@ namespace Tubumu.Core.Extensions
 
         #endregion 字符串格式化
 
-        #region 串联字符串集合
-
-        /// <summary>
-        /// Join
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
-        public static string Join(this IEnumerable<String> source, string separator)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-            if (separator == null)
-            {
-                throw new ArgumentNullException(nameof(separator));
-            }
-
-            var enumerable = source as string[] ?? source.ToArray();
-            if (enumerable.IsNullOrEmpty())
-            {
-                return String.Empty;
-            }
-
-            return String.Join(separator, enumerable);
-        }
-
-        /// <summary>
-        /// Join
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="separator"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        public static string Join<T>(this IEnumerable<T> source, string separator, Func<T, String> selector)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-            if (separator == null)
-            {
-                throw new ArgumentNullException(nameof(separator));
-            }
-            if (selector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
-            var enumerable = source as T[] ?? source.ToArray();
-            if (enumerable.IsNullOrEmpty())
-            {
-                return String.Empty;
-            }
-
-            return String.Join(separator, enumerable.Select(selector));
-        }
-
-        #endregion 串联字符串集合
-
         #region 目录相关
 
         /// <summary>
@@ -309,17 +248,17 @@ namespace Tubumu.Core.Extensions
                 path = path.Substring(1, path.Length - 1);
             }
 
-            string[] pathNames = path.Split('/');
+            string[] pathNames = path.Split(Path.DirectorySeparatorChar);
             path = String.Empty;
 
             foreach (string p in pathNames)
             {
                 if (p != String.Empty)
                 {
-                    path += p + "/";
+                    path += p + Path.DirectorySeparatorChar;
                 }
             }
-            if (path.EndsWith("/"))
+            if (path.EndsWith(Path.DirectorySeparatorChar))
             {
                 path = path.Substring(0, path.Length - 1);
             }
@@ -342,11 +281,11 @@ namespace Tubumu.Core.Extensions
                 throw new ArgumentNullException(nameof(path));
             }
 
-            if (!path.StartsWith("~/"))
+            if (!path.StartsWith($"~{Path.DirectorySeparatorChar}"))
             {
-                if (!path.StartsWith("/"))
+                if (!path.StartsWith(Path.DirectorySeparatorChar))
                 {
-                    path = "/" + path;
+                    path = Path.DirectorySeparatorChar + path;
                 }
 
                 if (!path.StartsWith("~"))
@@ -354,7 +293,7 @@ namespace Tubumu.Core.Extensions
                     path = "~" + path;
                 }
             }
-            if (path.EndsWith("/"))
+            if (path.EndsWith(Path.DirectorySeparatorChar))
             {
                 path = path.Substring(0, path.Length - 1);
             }
@@ -403,30 +342,6 @@ namespace Tubumu.Core.Extensions
                 times--;
             }
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// 简单过滤 SQL 语句
-        /// </summary>
-        /// <param name="sqlString"></param>
-        /// <returns></returns>
-        public static string? SqlFilter(this string sqlString)
-        {
-            if (sqlString == null)
-            {
-                return null;
-            }
-
-            sqlString = sqlString.ToLower();
-            string words = "and|exec|insert|select|delete|update|chr|mid|master|or|truncate|char|declare|join";
-            foreach (string i in words.Split('|'))
-            {
-                if ((sqlString.IndexOf(i + " ", StringComparison.Ordinal) > -1) || (sqlString.IndexOf(" " + i, StringComparison.Ordinal) > -1))
-                {
-                    sqlString = sqlString.Replace(i, String.Empty);
-                }
-            }
-            return sqlString;
         }
 
         /// <summary>

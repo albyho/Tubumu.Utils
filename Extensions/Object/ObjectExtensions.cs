@@ -125,7 +125,7 @@ namespace Tubumu.Core.Extensions.Object
         }
 
         /// <summary>
-        /// FromXml
+        /// XML 反序列化
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="serializedObject"></param>
@@ -136,7 +136,7 @@ namespace Tubumu.Core.Extensions.Object
         }
 
         /// <summary>
-        /// FromXml
+        /// XML 反序列化
         /// </summary>
         /// <param name="type"></param>
         /// <param name="serializedObject"></param>
@@ -164,7 +164,7 @@ namespace Tubumu.Core.Extensions.Object
         }
 
         /// <summary>
-        /// ToXml
+        /// XML 序列化
         /// </summary>
         /// <param name="source"></param>
         /// <param name="noneXsn"></param>
@@ -209,6 +209,11 @@ namespace Tubumu.Core.Extensions.Object
             return serializedObject;
         }
 
+        /// <summary>
+        /// 判断是否是 Json 数字或普通数字。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         public static bool IsNumericType(this object o)
         {
             var jsonElement = o as JsonElement?;
@@ -237,6 +242,11 @@ namespace Tubumu.Core.Extensions.Object
             }
         }
 
+        /// <summary>
+        /// 判断是否是 Json 字符串或普通字符串。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         public static bool IsStringType(this object o)
         {
             var jsonElement = o as JsonElement?;
