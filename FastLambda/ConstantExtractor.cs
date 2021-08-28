@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Tubumu.Core.FastLambda
+namespace Tubumu.Utils.FastLambda
 {
     /// <summary>
     /// ConstantExtractor

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Tubumu.Core.Models;
+using Tubumu.Utils.Models;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     /// <summary>
     /// QueryableExtensions

@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Text;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     /// <summary>
     /// NameValueCollectionExtensions

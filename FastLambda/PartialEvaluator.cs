@@ -1,4 +1,4 @@
-﻿namespace Tubumu.Core.FastLambda
+﻿namespace Tubumu.Utils.FastLambda
 {
     /// <summary>
     /// PartialEvaluator

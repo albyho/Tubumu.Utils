@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Tubumu.Core.FastLambda
+namespace Tubumu.Utils.FastLambda
 {
     /// <summary>
     /// DelegateGenerator

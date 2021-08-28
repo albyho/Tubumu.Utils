@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
-namespace Tubumu.Core.Extensions.Ip
+namespace Tubumu.Utils.Extensions.Ip
 {
     /// <summary>
     /// IPAddressExtensions

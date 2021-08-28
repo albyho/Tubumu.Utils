@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     /// <summary>
     /// DictionaryExtensions

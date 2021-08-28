@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Tubumu.Core.Extensions.Object;
+using Tubumu.Utils.Extensions.Object;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     public static class HttpClientExtensions
     {

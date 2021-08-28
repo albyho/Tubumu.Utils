@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace Tubumu.Core.Utilities.Cryptography
+namespace Tubumu.Utils.Utilities.Cryptography
 {
     /// <summary>
     /// OFBStream

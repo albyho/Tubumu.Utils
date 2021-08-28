@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tubumu.Core.Utilities
+namespace Tubumu.Utils.Utilities
 {
     public class QueueBuffer
     {

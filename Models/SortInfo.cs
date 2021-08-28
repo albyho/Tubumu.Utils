@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Tubumu.Core.Models
+namespace Tubumu.Utils.Models
 {
     /// <summary>
     /// 排序信息

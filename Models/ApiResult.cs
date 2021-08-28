@@ -1,7 +1,7 @@
 ﻿
 using System.Text.Json.Serialization;
 
-namespace Tubumu.Core.Models
+namespace Tubumu.Utils.Models
 {
     public class ApiResult
     {

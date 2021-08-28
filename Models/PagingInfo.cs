@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Tubumu.Core.Models
+namespace Tubumu.Utils.Models
 {
     /// <summary>
     /// 分页信息

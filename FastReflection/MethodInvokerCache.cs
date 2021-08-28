@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Tubumu.Core.FastReflection
+namespace Tubumu.Utils.FastReflection
 {
     /// <summary>
     /// MethodInvokerCache

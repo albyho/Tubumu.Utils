@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Tubumu.Core.Json
+namespace Tubumu.Utils.Json
 {
     public static class JsonElementExtensions
     {

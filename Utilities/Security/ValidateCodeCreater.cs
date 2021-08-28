@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using SkiaSharp;
-using Tubumu.Core.Extensions;
+using Tubumu.Utils.Extensions;
 
-namespace Tubumu.Core.Utilities.Security
+namespace Tubumu.Utils.Utilities.Security
 {
     /// <summary>
     /// 生成验证码的类

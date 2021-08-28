@@ -2,9 +2,9 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Tubumu.Core.Extensions;
+using Tubumu.Utils.Extensions;
 
-namespace Tubumu.Core.Utilities.Cryptography
+namespace Tubumu.Utils.Utilities.Cryptography
 {
     /// <summary>
     /// DES加密解密算法(默认采用的是ECB模式)

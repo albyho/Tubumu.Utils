@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using SkiaSharp;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     /// <summary>
     /// 参考：https://github.com/dresdf/PicturesASP/blob/ecd168dace09e5185446107e95f51da08fcefb84/PicturesASP/Utils/ImageProcessor.cs

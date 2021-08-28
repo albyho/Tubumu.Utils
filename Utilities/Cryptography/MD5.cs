@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using Tubumu.Core.Extensions;
+using Tubumu.Utils.Extensions;
 
-namespace Tubumu.Core.Utilities.Cryptography
+namespace Tubumu.Utils.Utilities.Cryptography
 {
     /// <summary>
     /// MD5加密算法

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Tubumu.Core.FastLambda
+namespace Tubumu.Utils.FastLambda
 {
     /// <summary>
     /// CacheEvaluator

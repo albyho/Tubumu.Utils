@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tubumu.Core.Extensions
+namespace Tubumu.Utils.Extensions
 {
     /// <summary>
     /// GuidExtensions

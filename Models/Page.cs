@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tubumu.Core.Models
+namespace Tubumu.Utils.Models
 {
     /// <summary>
     /// 分页

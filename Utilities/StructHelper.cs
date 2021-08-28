@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Tubumu.Core.Utilities
+namespace Tubumu.Utils.Utilities
 {
     /// <summary>
     /// StructHelper

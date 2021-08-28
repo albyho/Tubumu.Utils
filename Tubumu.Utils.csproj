@@ -4,13 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
 
-    <PackageId>Tubumu.Core</PackageId>
+    <PackageId>Tubumu.Utils</PackageId>
     <Version>4.0.0</Version>
     <Authors>Alby</Authors>
     <Company>Tubumu</Company>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
-    <RepositoryUrl>https://github.com/albyho/Tubumu.Core</RepositoryUrl> 
+    <RepositoryUrl>https://github.com/albyho/Tubumu.Utils</RepositoryUrl> 
     <RepositoryType>git</RepositoryType>
 
   </PropertyGroup>

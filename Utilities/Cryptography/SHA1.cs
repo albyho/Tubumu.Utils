@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Tubumu.Core.Utilities.Cryptography
+namespace Tubumu.Utils.Utilities.Cryptography
 {
     /// <summary>
     /// SHA1加密算法

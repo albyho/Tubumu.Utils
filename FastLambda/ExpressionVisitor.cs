@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace Tubumu.Core.FastLambda
+namespace Tubumu.Utils.FastLambda
 {
     /// <summary>
     /// ExpressionVisitor

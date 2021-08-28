@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
-using Tubumu.Core.Extensions;
+using Tubumu.Utils.Extensions;
 
-namespace Tubumu.Core
+namespace Tubumu.Utils
 {
     [DebuggerStepThrough]
     public static class Check

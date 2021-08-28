@@ -10,9 +10,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using Tubumu.Core.FastReflection;
+using Tubumu.Utils.FastReflection;
 
-namespace Tubumu.Core.Extensions.Object
+namespace Tubumu.Utils.Extensions.Object
 {
     /// <summary>
     /// ObjectExtensions

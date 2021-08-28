@@ -1,4 +1,4 @@
-﻿namespace Tubumu.Core.FastReflection
+﻿namespace Tubumu.Utils.FastReflection
 {
     /// <summary>
     /// IFastReflectionCache
