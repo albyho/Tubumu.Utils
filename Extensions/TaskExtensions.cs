@@ -94,7 +94,7 @@ namespace Tubumu.Core.Extensions
             {
                 case TaskStatus.RanToCompletion:
 #pragma warning disable CS8604 // Possible null reference argument.
-                    return resultSetter.TrySetResult(task is Task<TResult> taskLocal ? taskLocal.Result! : default);
+                    return resultSetter.TrySetResult(task is Task<TResult> taskLocal ? taskLocal.Result : default);
 #pragma warning restore CS8604 // Possible null reference argument.
                 case TaskStatus.Faulted:
                     return resultSetter.TrySetException(task.Exception!.InnerExceptions);

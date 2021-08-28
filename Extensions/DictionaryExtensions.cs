@@ -112,20 +112,20 @@ namespace Tubumu.Core.Extensions
             return result;
         }
 
-        public static bool DeepEquals<TKey, TValue>(this IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second)
+        public static bool DeepEquals<TKey, TValue>(this IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second) where TKey: notnull
         {
             var comparer = new DictionaryComparer<TKey, TValue>();
             return comparer.Equals(first, second);
         }
 
-        public static int DeepGetHashCode<TKey, TValue>(this IDictionary<TKey, TValue> dic)
+        public static int DeepGetHashCode<TKey, TValue>(this IDictionary<TKey, TValue> dic) where TKey : notnull
         {
             var comparer = new DictionaryComparer<TKey, TValue>();
             return comparer.GetHashCode(dic);
         }
     }
 
-    public class DictionaryComparer<TKey, TValue> : IEqualityComparer<IDictionary<TKey, TValue>>
+    public class DictionaryComparer<TKey, TValue> : IEqualityComparer<IDictionary<TKey, TValue>> where TKey: notnull
     {
         public bool Equals(IDictionary<TKey, TValue>? x, IDictionary<TKey, TValue>? y)
         {
@@ -167,7 +167,7 @@ namespace Tubumu.Core.Extensions
             int hash = 0;
             foreach (var kvp in obj)
             {
-                hash ^= kvp.Key!.GetHashCode();
+                hash ^= kvp.Key.GetHashCode();
                 if (kvp.Value != null)
                 {
                     hash ^= kvp.Value.GetHashCode();
