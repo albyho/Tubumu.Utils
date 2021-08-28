@@ -22,8 +22,8 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         public T Get(Expression key, Func<Expression, T> creator)
         {
-            SortedList<Expression, T> sortedList;
-            T value;
+            SortedList<Expression, T>? sortedList;
+            T? value;
 
             int hash = new Hasher().Hash(key);
             _rwLock.EnterReadLock();

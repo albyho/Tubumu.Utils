@@ -100,7 +100,7 @@ namespace Tubumu.Core
             int i;
             for (i = offset; i < buffer.Count; i++)
             {
-                var cc = buffer.Array[buffer.Offset + i];
+                var cc = buffer.Array![buffer.Offset + i];
 
                 if (cc == ':'/*0x3a*/)
                 {
@@ -174,7 +174,7 @@ namespace Tubumu.Core
 
             var start = _offset + (netstringLength - payloadLength - 1);
             _offset += netstringLength;
-            return new Payload(new ArraySegment<byte>(_buffer.Array, start, payloadLength), netstringLength);
+            return new Payload(new ArraySegment<byte>(_buffer.Array!, start, payloadLength), netstringLength);
         }
     }
 }

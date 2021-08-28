@@ -20,7 +20,7 @@ namespace Tubumu.Core.FastLambda
         /// <param name="y"></param>
         /// <param name="result"></param>
         /// <returns>can stop comparing or not</returns>
-        protected bool CompareNull<T>(T x, T y, out int result) where T : class
+        protected bool CompareNull<T>(T? x, T? y, out int result) where T : class
         {
             if (x == null && y == null)
             {
@@ -44,7 +44,7 @@ namespace Tubumu.Core.FastLambda
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        protected virtual int CompareType(Type x, Type y)
+        protected virtual int CompareType(Type? x, Type? y)
         {
             if (x == y)
             {
@@ -56,7 +56,7 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            result = x.GetHashCode() - y.GetHashCode();
+            result = x!.GetHashCode() - y!.GetHashCode();
             if (result != 0)
             {
                 return result;
@@ -68,7 +68,7 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            return x.AssemblyQualifiedName.CompareTo(y.AssemblyQualifiedName);
+            return x.AssemblyQualifiedName!.CompareTo(y.AssemblyQualifiedName);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            return x.ToString().CompareTo(y.ToString());
+            return x.ToString()!.CompareTo(y.ToString());
         }
 
         /// <summary>
@@ -122,14 +122,14 @@ namespace Tubumu.Core.FastLambda
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public virtual int Compare(Expression x, Expression y)
+        public virtual int Compare(Expression? x, Expression? y)
         {
             if (CompareNull(x, y, out int result))
             {
                 return result;
             }
 
-            result = CompareType(x.GetType(), y.GetType());
+            result = CompareType(x!.GetType(), y!.GetType());
             if (result != 0)
             {
                 return result;
@@ -387,13 +387,13 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            result = CompareMemberInfo(x.Constructor, y.Constructor);
+            result = CompareMemberInfo(x.Constructor!, y.Constructor!);
             if (result != 0)
             {
                 return result;
             }
 
-            result = x.Members.Count - y.Members.Count;
+            result = x.Members!.Count - y.Members!.Count;
             for (int i = 0; i < x.Members.Count; i++)
             {
                 result = CompareMemberInfo(x.Members[i], y.Members[i]);
@@ -506,7 +506,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual int CompareParameter(ParameterExpression x, ParameterExpression y)
         {
-            return x.Name.CompareTo(y.Name);
+            return x.Name!.CompareTo(y.Name);
         }
 
         /// <summary>
@@ -580,7 +580,7 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            result = CompareMemberInfo(x.Method, y.Method);
+            result = CompareMemberInfo(x.Method!, y.Method!);
             if (result != 0)
             {
                 return result;
@@ -621,7 +621,7 @@ namespace Tubumu.Core.FastLambda
                 return result;
             }
 
-            result = CompareMemberInfo(x.Method, y.Method);
+            result = CompareMemberInfo(x.Method!, y.Method!);
             if (result != 0)
             {
                 return result;

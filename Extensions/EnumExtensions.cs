@@ -89,10 +89,10 @@ namespace Tubumu.Core.Extensions
         {
             var type = enumValue.GetType();
             var enumName = Enum.GetName(type, enumValue);
-            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumMemberAttribute), false);
+            var attributes = type.GetField(enumName!)!.GetCustomAttributes(typeof(EnumMemberAttribute), false);
             if (attributes.Length > 0)
             {
-                return ((EnumMemberAttribute)attributes[0]).Value;
+                return ((EnumMemberAttribute)attributes[0]).Value!;
             }
             else
             {
@@ -109,10 +109,10 @@ namespace Tubumu.Core.Extensions
             }
 
             var enumName = Enum.GetName(type, enumValue);
-            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(EnumMemberAttribute), false);
+            var attributes = type.GetField(enumName!)!.GetCustomAttributes(typeof(EnumMemberAttribute), false);
             if (attributes.Length > 0)
             {
-                return ((EnumMemberAttribute)attributes[0]).Value;
+                return ((EnumMemberAttribute)attributes[0]).Value!;
             }
             else
             {
@@ -134,7 +134,7 @@ namespace Tubumu.Core.Extensions
                 var attribute = field.GetCustomAttributes(typeof(EnumMemberAttribute), false).FirstOrDefault();
                 if (attribute != null)
                 {
-                    result.Add(((EnumMemberAttribute)attribute).Value);
+                    result.Add(((EnumMemberAttribute)attribute).Value!);
                 }
             }
 
@@ -152,11 +152,11 @@ namespace Tubumu.Core.Extensions
             var result = new Dictionary<string, T>();
             foreach (var value in values)
             {
-                var field = enumType.GetField(Enum.GetName(enumType, value));
-                var attribute = field.GetCustomAttributes(typeof(EnumMemberAttribute), false).FirstOrDefault();
+                var field = enumType.GetField(Enum.GetName(enumType, value!)!);
+                var attribute = field!.GetCustomAttributes(typeof(EnumMemberAttribute), false).FirstOrDefault();
                 if (attribute != null)
                 {
-                    result.Add(((EnumMemberAttribute)attribute).Value, value);
+                    result.Add(((EnumMemberAttribute)attribute).Value!, value);
                 }
             }
 
@@ -167,8 +167,8 @@ namespace Tubumu.Core.Extensions
 
         private static string GetEnumRawConstantValue(this object enumValue, Type type)
         {
-            var filedInfo = type.GetField(Enum.GetName(type, enumValue));
-            return filedInfo.GetRawConstantValue().ToString();
+            var filedInfo = type.GetField(Enum.GetName(type, enumValue)!);
+            return filedInfo!.GetRawConstantValue()!.ToString()!;
         }
 
         private static string? GetEnumDisplayName(this object enumValue, Type type)
@@ -179,7 +179,7 @@ namespace Tubumu.Core.Extensions
                 throw new NotSupportedException("GetEnumDisplayName");
             }
 
-            var attributes = type.GetField(enumName).GetCustomAttributes(typeof(DisplayAttribute), false);
+            var attributes = type.GetField(enumName)!.GetCustomAttributes(typeof(DisplayAttribute), false);
             if (attributes.Length > 0)
             {
                 return ((DisplayAttribute)attributes[0]).GetName();

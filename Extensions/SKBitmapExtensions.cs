@@ -21,7 +21,7 @@ namespace Tubumu.Core.Extensions
         /// <param name="outputWidth"></param>
         public static void SaveImage(this Stream imageStream, string outputFilePath, int? outputWidth = null)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(outputFilePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(outputFilePath)!);
             var format = GetFormat(outputFilePath);
 
             using (var inputStream = new SKManagedStream(imageStream))

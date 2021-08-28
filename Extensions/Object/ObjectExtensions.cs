@@ -57,42 +57,6 @@ namespace Tubumu.Core.Extensions.Object
         }
 
         /// <summary>
-        /// 深度克隆
-        /// </summary>
-        /// <param name="source">源对象</param>
-        /// <returns>新对象</returns>
-        public static object? DeepCloneSlow(this object source)
-        {
-            if (source == null)
-            {
-                return null;
-            }
-
-            using (var memStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter(null, new StreamingContext(StreamingContextStates.Clone));
-                binaryFormatter.Serialize(memStream, source);
-                memStream.Position = 0;
-                return binaryFormatter.Deserialize(memStream);
-            }
-        }
-
-        /// <summary>
-        /// 深度克隆
-        /// </summary>
-        /// <param name="source">源对象</param>
-        /// <returns>新对象</returns>
-        public static T? DeepCloneSlow<T>(this object source) where T : class
-        {
-            if (source == null || source.GetType() != typeof(T))
-            {
-                return null;
-            }
-
-            return DeepCloneSlow(source) as T;
-        }
-
-        /// <summary>
         /// 创建一个新的类型的对象，并将现有对象的属性值赋给新对象相同名称的属性
         /// </summary>
         /// <typeparam name="T">新对象的类型</typeparam>
@@ -133,7 +97,7 @@ namespace Tubumu.Core.Extensions.Object
 
             foreach (PropertyDescriptor targetPropertyDescriptor in TypeDescriptor.GetProperties(target))
             {
-                PropertyInfo sourcePropertyInfo = type.GetProperty(targetPropertyDescriptor.Name, BindingFlags.Instance | BindingFlags.Public);
+                var sourcePropertyInfo = type.GetProperty(targetPropertyDescriptor.Name, BindingFlags.Instance | BindingFlags.Public);
                 if (sourcePropertyInfo != null && sourcePropertyInfo.CanWrite)
                 {
                     var targetPropertyAccessor = new PropertyAccessor(sourcePropertyInfo);
@@ -243,44 +207,6 @@ namespace Tubumu.Core.Extensions.Object
                 }
             }
             return serializedObject;
-        }
-
-        /// <summary>
-        /// ToByteArray
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static byte[]? ToByteArray(this object obj)
-        {
-            if (obj == null)
-            {
-                return null;
-            }
-            var binaryFormatter = new BinaryFormatter();
-            using (var memoryStream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(memoryStream, obj);
-                return memoryStream.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// FromByteArray
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="byteArray"></param>
-        /// <returns></returns>
-        public static T? FromByteArray<T>(this byte[] byteArray) where T : class
-        {
-            if (byteArray == null)
-            {
-                return default;
-            }
-            var binaryFormatter = new BinaryFormatter();
-            using (var memoryStream = new MemoryStream(byteArray))
-            {
-                return binaryFormatter.Deserialize(memoryStream) as T;
-            }
         }
 
         public static bool IsNumericType(this object o)

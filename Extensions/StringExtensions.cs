@@ -445,9 +445,9 @@ namespace Tubumu.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string ToEmptyableString<T>(this T source) where T : class
+        public static string ToEmptyableString<T>(this T? source) where T : class
         {
-            return source != null ? source.ToString() : String.Empty;
+            return source != null ? source.ToString()! : String.Empty;
         }
 
         /// <summary>

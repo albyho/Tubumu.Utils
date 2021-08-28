@@ -48,7 +48,7 @@ namespace Tubumu.Core.FastReflection
 
             // non-instance for static method, or ((TInstance)instance)
             var instanceCast = fieldInfo.IsStatic ? null :
-                Expression.Convert(instance, fieldInfo.ReflectedType);
+                Expression.Convert(instance, fieldInfo.ReflectedType!);
 
             // ((TInstance)instance).Property
             var fieldAccess = Expression.Field(instanceCast, fieldInfo);

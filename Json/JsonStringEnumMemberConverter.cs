@@ -52,17 +52,17 @@ namespace System.Text.Json.Serialization
 
 			return IsNullableEnum
 				? (JsonConverter)Activator.CreateInstance(
-					typeof(NullableEnumMemberConverter<>).MakeGenericType(UnderlyingType),
+					typeof(NullableEnumMemberConverter<>).MakeGenericType(UnderlyingType!)!,
 					BindingFlags.Instance | BindingFlags.Public,
 					binder: null,
 					args: new object?[] { _NamingPolicy, _AllowIntegerValues },
-					culture: null)
+					culture: null)!
 				: (JsonConverter)Activator.CreateInstance(
-					typeof(EnumMemberConverter<>).MakeGenericType(typeToConvert),
+					typeof(EnumMemberConverter<>).MakeGenericType(typeToConvert)!,
 					BindingFlags.Instance | BindingFlags.Public,
 					binder: null,
 					args: new object?[] { _NamingPolicy, _AllowIntegerValues },
-					culture: null);
+					culture: null)!;
 		}
 
 		private static (bool IsNullableEnum, Type? UnderlyingType) TestNullableEnum(Type typeToConvert)

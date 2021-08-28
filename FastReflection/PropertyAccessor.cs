@@ -61,8 +61,8 @@ namespace Tubumu.Core.FastReflection
             var instance = Expression.Parameter(typeof(object), "instance");
 
             // non-instance for static method, or ((TInstance)instance)
-            var instanceCast = propertyInfo.GetGetMethod(true).IsStatic ? null :
-                Expression.Convert(instance, propertyInfo.ReflectedType);
+            var instanceCast = propertyInfo.GetGetMethod(true)!.IsStatic ? null :
+                Expression.Convert(instance, propertyInfo.ReflectedType!);
 
             // ((TInstance)instance).Property
             var propertyAccess = Expression.Property(instanceCast, propertyInfo);
@@ -83,7 +83,7 @@ namespace Tubumu.Core.FastReflection
                 return;
             }
 
-            _setMethodInvoker = new MethodInvoker(propertyInfo.GetSetMethod(true));
+            _setMethodInvoker = new MethodInvoker(propertyInfo.GetSetMethod(true)!);
         }
 
         /// <summary>

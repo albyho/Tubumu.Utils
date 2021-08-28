@@ -134,7 +134,7 @@ namespace Tubumu.Core.Extensions
             }
 
             ParameterExpression p = selector.Parameters.Single();
-            var containsExpressions = values.Select(value => (Expression)Expression.Call(selector.Body, typeof(String).GetMethod("Contains", new[] { typeof(String) }), Expression.Constant(value)));
+            var containsExpressions = values.Select(value => (Expression)Expression.Call(selector.Body, typeof(String).GetMethod("Contains", new[] { typeof(String) })!, Expression.Constant(value)));
             Expression body = containsExpressions.Aggregate((accumulate, containsExpression) => Expression.Or(accumulate, containsExpression));
 
             return query.Where(Expression.Lambda<Func<TEntity, bool>>(body, p));
@@ -277,7 +277,7 @@ namespace Tubumu.Core.Extensions
             MethodCallExpression exprGroupJoin = Expression.Call(groupJoin, outer.Expression, inner.Expression, outerKeySelector, innerKeySelector, groupJoinResultSelector);
 
             var selectManyCollectionSelector = (Expression<Func<LeftJoinIntermediate<TOuter, TInner>, IEnumerable<TInner>>>)
-                                               (t => t.ManyInners.DefaultIfEmpty());
+                                               (t => t.ManyInners.DefaultIfEmpty()!);
 
             ParameterExpression paramUser = resultSelector.Parameters.First();
 
@@ -310,7 +310,7 @@ namespace Tubumu.Core.Extensions
                 _replacement = replacement;
             }
 
-            public override Expression Visit(Expression exp)
+            public override Expression? Visit(Expression? exp)
             {
                 if (exp == _oldParam)
                 {

@@ -72,7 +72,7 @@ namespace Tubumu.Core.Extensions
         public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
         {
             var result = new TaskCompletionSource<TResult>(task.AsyncState);
-            var timer = new Timer(state => ((TaskCompletionSource<TResult>)state).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
+            var timer = new Timer(state => ((TaskCompletionSource<TResult>)state!).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
             task.ContinueWith(t =>
             {
                 timer.Dispose();
@@ -97,7 +97,7 @@ namespace Tubumu.Core.Extensions
                     return resultSetter.TrySetResult(task is Task<TResult> taskLocal ? taskLocal.Result! : default);
 #pragma warning restore CS8604 // Possible null reference argument.
                 case TaskStatus.Faulted:
-                    return resultSetter.TrySetException(task.Exception.InnerExceptions);
+                    return resultSetter.TrySetException(task.Exception!.InnerExceptions);
 
                 case TaskStatus.Canceled:
                     return resultSetter.TrySetCanceled();

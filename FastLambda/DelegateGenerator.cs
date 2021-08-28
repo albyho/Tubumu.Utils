@@ -10,7 +10,7 @@ namespace Tubumu.Core.FastLambda
     /// </summary>
     public class DelegateGenerator : ExpressionVisitor
     {
-        private static readonly MethodInfo IndexerInfo = typeof(List<object>).GetMethod("get_Item");
+        private static readonly MethodInfo IndexerInfo = typeof(List<object>).GetMethod("get_Item")!;
 
         private int _parameterCount;
         private ParameterExpression? _parametersExpression;

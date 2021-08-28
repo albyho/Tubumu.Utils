@@ -17,8 +17,7 @@ namespace Tubumu.Core.Utilities
 
         public ArraySegment<byte> Dequeue()
         {
-            var item = _segments.Dequeue();
-            if (item != null)
+            if(_segments.TryDequeue(out var item))
             {
                 Length -= item.Count;
             }

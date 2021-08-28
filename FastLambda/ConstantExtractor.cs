@@ -30,12 +30,12 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitConstant(ConstantExpression c)
         {
-            if(_constants == null)
+            if (_constants == null)
             {
                 throw new NullReferenceException(nameof(_constants));
             }
 
-            _constants?.Add(c.Value);
+            _constants?.Add(c.Value!);
             return c;
         }
     }

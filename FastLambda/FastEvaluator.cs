@@ -44,7 +44,7 @@ namespace Tubumu.Core.FastLambda
         {
             if (exp.NodeType == ExpressionType.Constant)
             {
-                return ((ConstantExpression)exp).Value;
+                return ((ConstantExpression)exp).Value!;
             }
 
             var parameters = _constantExtrator.Extract(exp);

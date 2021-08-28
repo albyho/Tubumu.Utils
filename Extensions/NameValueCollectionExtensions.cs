@@ -28,7 +28,7 @@ namespace Tubumu.Core.Extensions
                 return false;
             }
 
-            return bool.TryParse(values[0], out var isTrue) && isTrue;
+            return bool.TryParse(values![0], out var isTrue) && isTrue;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Tubumu.Core.Extensions
                 return null;
             }
 
-            return bool.TryParse(values[0], out bool isTrueValue) && isTrueValue;
+            return bool.TryParse(values![0], out bool isTrueValue) && isTrueValue;
         }
 
         /// <summary>

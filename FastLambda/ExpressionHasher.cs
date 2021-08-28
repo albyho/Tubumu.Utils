@@ -78,7 +78,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitBinary(BinaryExpression b)
         {
-            Hash(b.IsLifted).Hash(b.IsLiftedToNull).Hash(b.Method);
+            Hash(b.IsLifted).Hash(b.IsLiftedToNull).Hash(b.Method!);
             return base.VisitBinary(b);
         }
 
@@ -100,7 +100,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitConstant(ConstantExpression c)
         {
-            Hash(c.Value);
+            Hash(c.Value!);
             return base.VisitConstant(c);
         }
 
@@ -159,7 +159,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override NewExpression VisitNew(NewExpression nex)
         {
-            Hash(nex.Constructor);
+            Hash(nex.Constructor!);
             if (nex.Members != null)
             {
                 foreach (var m in nex.Members)
@@ -178,7 +178,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitParameter(ParameterExpression p)
         {
-            Hash(p.Name);
+            Hash(p.Name!);
             return base.VisitParameter(p);
         }
 
@@ -200,7 +200,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected override Expression VisitUnary(UnaryExpression u)
         {
-            Hash(u.IsLifted).Hash(u.IsLiftedToNull).Hash(u.Method);
+            Hash(u.IsLifted).Hash(u.IsLiftedToNull).Hash(u.Method!);
             return base.VisitUnary(u);
         }
     }

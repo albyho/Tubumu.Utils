@@ -98,6 +98,7 @@ namespace Tubumu.Core.Extensions
         public static Dictionary<TKey, TValue> Merge<TKey, TValue>(
             this IDictionary<TKey, TValue> first,
             IDictionary<TKey, TValue> second)
+            where TKey : notnull
         {
             var result = new Dictionary<TKey, TValue>();
             foreach (var key in first.Keys)
@@ -126,7 +127,7 @@ namespace Tubumu.Core.Extensions
 
     public class DictionaryComparer<TKey, TValue> : IEqualityComparer<IDictionary<TKey, TValue>>
     {
-        public bool Equals(IDictionary<TKey, TValue> x, IDictionary<TKey, TValue> y)
+        public bool Equals(IDictionary<TKey, TValue>? x, IDictionary<TKey, TValue>? y)
         {
             if (x == null)
             {
@@ -142,7 +143,7 @@ namespace Tubumu.Core.Extensions
             }
             foreach (var kvp in x)
             {
-                if (!y.TryGetValue(kvp.Key, out TValue value))
+                if (!y.TryGetValue(kvp.Key, out var value))
                 {
                     return false;
                 }

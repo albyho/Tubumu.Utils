@@ -8,7 +8,7 @@ namespace Tubumu.Core.FastReflection
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
-    public abstract class FastReflectionCache<TKey, TValue> : IFastReflectionCache<TKey, TValue>
+    public abstract class FastReflectionCache<TKey, TValue> : IFastReflectionCache<TKey, TValue> where TKey : notnull
     {
         private readonly Dictionary<TKey, TValue> _cache = new Dictionary<TKey, TValue>();
 
@@ -17,14 +17,14 @@ namespace Tubumu.Core.FastReflection
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TValue Get(TKey key)
+        public TValue? Get(TKey? key)
         {
             if(key == null)
             {
                 throw new ArgumentNullException(nameof(key));
             }
 
-            TValue value;
+            TValue? value;
             lock (key)
             {
                 if (!_cache.TryGetValue(key, out value))

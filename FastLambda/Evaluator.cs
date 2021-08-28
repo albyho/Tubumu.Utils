@@ -17,13 +17,13 @@ namespace Tubumu.Core.FastLambda
         {
             if (exp.NodeType == ExpressionType.Constant)
             {
-                return ((ConstantExpression)exp).Value;
+                return ((ConstantExpression)exp).Value!;
             }
 
             LambdaExpression lambda = Expression.Lambda(exp);
             Delegate fn = lambda.Compile();
 
-            return fn.DynamicInvoke(null);
+            return fn.DynamicInvoke(null)!;
         }
     }
 }

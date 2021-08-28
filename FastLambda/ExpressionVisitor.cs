@@ -163,7 +163,7 @@ namespace Tubumu.Core.FastLambda
         {
             Expression left = Visit(b.Left);
             Expression right = Visit(b.Right);
-            Expression conversion = Visit(b.Conversion);
+            Expression conversion = Visit(b.Conversion!);
             if (left != b.Left || right != b.Right || conversion != b.Conversion)
             {
                 if (b.NodeType == ExpressionType.Coalesce && b.Conversion != null)
@@ -237,7 +237,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual Expression VisitMemberAccess(MemberExpression m)
         {
-            Expression exp = Visit(m.Expression);
+            Expression exp = Visit(m.Expression!);
             if (exp != m.Expression)
             {
                 return Expression.MakeMemberAccess(exp, m.Member);
@@ -252,7 +252,7 @@ namespace Tubumu.Core.FastLambda
         /// <returns></returns>
         protected virtual Expression VisitMethodCall(MethodCallExpression m)
         {
-            Expression obj = Visit(m.Object);
+            Expression obj = Visit(m.Object!);
             IEnumerable<Expression> args = VisitExpressionList(m.Arguments);
             if (obj != m.Object || args != m.Arguments)
             {
@@ -423,11 +423,11 @@ namespace Tubumu.Core.FastLambda
             {
                 if (nex.Members != null)
                 {
-                    return Expression.New(nex.Constructor, args, nex.Members);
+                    return Expression.New(nex.Constructor!, args, nex.Members);
                 }
                 else
                 {
-                    return Expression.New(nex.Constructor, args);
+                    return Expression.New(nex.Constructor!, args);
                 }
             }
             return nex;
@@ -477,11 +477,11 @@ namespace Tubumu.Core.FastLambda
             {
                 if (na.NodeType == ExpressionType.NewArrayInit)
                 {
-                    return Expression.NewArrayInit(na.Type.GetElementType(), exprs);
+                    return Expression.NewArrayInit(na.Type.GetElementType()!, exprs);
                 }
                 else
                 {
-                    return Expression.NewArrayBounds(na.Type.GetElementType(), exprs);
+                    return Expression.NewArrayBounds(na.Type.GetElementType()!, exprs);
                 }
             }
             return na;

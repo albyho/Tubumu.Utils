@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        TValue Get(TKey key);
+        TValue? Get(TKey? key);
     }
 }
