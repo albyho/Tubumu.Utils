@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Tubumu.Utils.Extensions.Object;
+using ObjectExtensions = Tubumu.Utils.Extensions.Object.ObjectExtensions;
 
 namespace Tubumu.Utils.Extensions
 {

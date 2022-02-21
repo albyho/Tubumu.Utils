@@ -20,13 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
-    <PackageReference Include="MessagePack" Version="2.3.75" />
-    <PackageReference Include="MessagePackAnalyzer" Version="2.3.75" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="MessagePack" Version="2.3.85" />
+    <PackageReference Include="MessagePackAnalyzer" Version="2.3.85" />
     <PackageReference Include="PinYinConverterCore" Version="1.0.2" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="NPOI" Version="2.5.4" />
+    <PackageReference Include="NPOI" Version="2.5.5" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
 
