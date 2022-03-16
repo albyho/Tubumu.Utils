@@ -21,7 +21,7 @@ namespace Tubumu.Utils.Json
 
         public static uint? GetNullableUInt32(this JsonElement jsonElement)
         {
-            if(jsonElement.TryGetUInt32(out var uintValue))
+            if (jsonElement.TryGetUInt32(out var uintValue))
             {
                 return uintValue;
             }
