@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using Tubumu.Utils.Extensions;
 
 namespace Tubumu.Utils
@@ -9,8 +8,7 @@ namespace Tubumu.Utils
     [DebuggerStepThrough]
     public static class Check
     {
-        [ContractAnnotation("value:null => halt")]
-        public static T NotNull<T>(T value, [InvokerParameterName][NotNull] string parameterName)
+        public static T NotNull<T>(T value, string parameterName)
         {
             if (value == null)
             {
@@ -20,8 +18,8 @@ namespace Tubumu.Utils
             return value;
         }
 
-        [ContractAnnotation("value:null => halt")]
-        public static T NotNull<T>(T value, [InvokerParameterName][NotNull] string parameterName, string message)
+
+        public static T NotNull<T>(T value, string parameterName, string message)
         {
             if (value == null)
             {
@@ -31,8 +29,8 @@ namespace Tubumu.Utils
             return value;
         }
 
-        [ContractAnnotation("value:null => halt")]
-        public static string NotNullOrWhiteSpace(string value, [InvokerParameterName][NotNull] string parameterName)
+
+        public static string NotNullOrWhiteSpace(string value, string parameterName)
         {
             if (value.IsNullOrWhiteSpace())
             {
@@ -42,8 +40,8 @@ namespace Tubumu.Utils
             return value;
         }
 
-        [ContractAnnotation("value:null => halt")]
-        public static string NotNullOrEmpty(string value, [InvokerParameterName][NotNull] string parameterName)
+
+        public static string NotNullOrEmpty(string value, string parameterName)
         {
             if (value.IsNullOrEmpty())
             {
@@ -53,8 +51,7 @@ namespace Tubumu.Utils
             return value;
         }
 
-        [ContractAnnotation("value:null => halt")]
-        public static ICollection<T> NotNullOrEmpty<T>(ICollection<T> value, [InvokerParameterName][NotNull] string parameterName)
+        public static ICollection<T> NotNullOrEmpty<T>(ICollection<T> value, string parameterName)
         {
             if (value.IsNullOrEmpty())
             {
