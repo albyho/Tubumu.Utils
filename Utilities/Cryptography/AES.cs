@@ -39,13 +39,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
             aes.IV = DefaultIV;
 
             byte[] cipherBytes;
-            using (var ms = new MemoryStream())
-            {
-                var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
-                cs.Write(inputByteArray, 0, inputByteArray.Length);
-                cs.FlushFinalBlock();
-                cipherBytes = ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            using var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
+            cs.Write(inputByteArray, 0, inputByteArray.Length);
+            cs.FlushFinalBlock();
+            cipherBytes = ms.ToArray();
 
             return cipherBytes;
         }
@@ -70,13 +68,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
             aes.Key = EnsureKey(key);
             aes.IV = DefaultIV;
 
-            using (var ms = new MemoryStream())
-            {
-                var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
-                cs.Write(inputByteArray, 0, inputByteArray.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            using var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
+            cs.Write(inputByteArray, 0, inputByteArray.Length);
+            cs.FlushFinalBlock();
+            return ms.ToArray();
 
         }
 
@@ -149,14 +145,10 @@ namespace Tubumu.Utils.Utilities.Cryptography
             aes.Key = EnsureKey(key);
             aes.IV = DefaultIV;
 
-            var decryptBytes = new Byte[inputByteArray.Length];
-            using (var ms = new MemoryStream())
-            {
-                using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read))
-                {
-                    cs.Read(decryptBytes, 0, decryptBytes.Length);
-                }
-            }
+            var decryptBytes = new byte[inputByteArray.Length];
+            using var ms = new MemoryStream();
+            using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
+            cs.Read(decryptBytes, 0, decryptBytes.Length);
 
             return decryptBytes;
         }

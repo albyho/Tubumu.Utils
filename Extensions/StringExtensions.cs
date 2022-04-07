@@ -95,10 +95,10 @@ namespace Tubumu.Utils.Extensions
         {
             if (string.IsNullOrEmpty(source))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            att = att ?? String.Empty;
+            att = att ?? string.Empty;
 
             var rChinese = new Regex(@"[\u4e00-\u9fa5]"); //验证中文
             var rEnglish = new Regex(@"^[A-Za-z0-9]+$");  //验证字母
@@ -127,7 +127,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static bool IsNullOrEmpty(this string? source)
         {
-            return String.IsNullOrEmpty(source);
+            return string.IsNullOrEmpty(source);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string FormatWith(this string format, object arg0)
         {
-            return String.Format(format, arg0);
+            return string.Format(format, arg0);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string FormatWith(this string format, object arg0, object arg1)
         {
-            return String.Format(format, arg0, arg1);
+            return string.Format(format, arg0, arg1);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string FormatWith(this string format, object arg0, object arg1, object arg2)
         {
-            return String.Format(format, arg0, arg1, arg2);
+            return string.Format(format, arg0, arg1, arg2);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string FormatWith(this string format, params object[] args)
         {
-            return String.Format(format, args);
+            return string.Format(format, args);
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string FormatWith(this string format, IFormatProvider provider, params object[] args)
         {
-            return String.Format(provider, format, args);
+            return string.Format(provider, format, args);
         }
 
         #endregion 字符串格式化
@@ -249,11 +249,11 @@ namespace Tubumu.Utils.Extensions
             }
 
             string[] pathNames = path.Split(Path.DirectorySeparatorChar);
-            path = String.Empty;
+            path = string.Empty;
 
             foreach (string p in pathNames)
             {
-                if (p != String.Empty)
+                if (p != string.Empty)
                 {
                     path += p + Path.DirectorySeparatorChar;
                 }
@@ -330,7 +330,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static string Repeat(this string source, int times)
         {
-            if (String.IsNullOrEmpty(source) || times <= 0)
+            if (string.IsNullOrEmpty(source) || times <= 0)
             {
                 return source;
             }
@@ -355,14 +355,14 @@ namespace Tubumu.Utils.Extensions
         }
 
         /// <summary>
-        /// 如果源对象为 null ，则返回 String.Empty ，否则返回其 ToString 方法返回值
+        /// 如果源对象为 null ，则返回 string.Empty ，否则返回其 ToString 方法返回值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
         public static string ToEmptyableString<T>(this T? source) where T : class
         {
-            return source != null ? source.ToString()! : String.Empty;
+            return source != null ? source.ToString()! : string.Empty;
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Tubumu.Utils.Extensions
                     var cc = new ChineseChar(item);
                     var pinYinString = cc.Pinyins[0].Substring(0, cc.Pinyins[0].Length - 1).ToLowerInvariant();
                     pinYin += pinYinString;
-                    py += pinYinString.Substring(0, 1);
+                    py += pinYinString[..1];
                 }
                 else
                 {
@@ -449,7 +449,7 @@ namespace Tubumu.Utils.Extensions
                 if (ChineseChar.IsValidChar(item))
                 {
                     var cc = new ChineseChar(item);
-                    py += cc.Pinyins[0].Substring(0, 1).ToLowerInvariant();
+                    py += cc.Pinyins[0][..1].ToLowerInvariant();
                 }
                 else
                 {

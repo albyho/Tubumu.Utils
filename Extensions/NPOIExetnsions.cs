@@ -90,7 +90,7 @@ namespace Tubumu.Utils.Extensions
         /// <returns>26进制表示。</returns>
         public static string ToNumberSystem26(int n)
         {
-            string s = string.Empty;
+            var s = string.Empty;
             while (n > 0)
             {
                 int m = n % 26;
@@ -117,10 +117,10 @@ namespace Tubumu.Utils.Extensions
                 return 0;
             }
 
-            int n = 0;
+            var n = 0;
             for (int i = s.Length - 1, j = 1; i >= 0; i--, j *= 26)
             {
-                char c = Char.ToUpper(s[i]);
+                char c = char.ToUpper(s[i]);
                 if (c < 'A' || c > 'Z')
                 {
                     return 0;
@@ -140,8 +140,8 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static CellRangeAddress? GetStrictCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
         {
-            int regionsCount = sheet.NumMergedRegions;
-            for (int i = 0; i < regionsCount; i++)
+            var regionsCount = sheet.NumMergedRegions;
+            for (var i = 0; i < regionsCount; i++)
             {
                 CellRangeAddress range = sheet.GetMergedRegion(i);
                 //sheet.IsMergedRegion(range);
@@ -164,8 +164,8 @@ namespace Tubumu.Utils.Extensions
         /// <returns></returns>
         public static CellRangeAddress? GetCellRangeAddress(this ISheet sheet, int rowNum, int colNum)
         {
-            int regionsCount = sheet.NumMergedRegions;
-            for (int i = 0; i < regionsCount; i++)
+            var regionsCount = sheet.NumMergedRegions;
+            for (var i = 0; i < regionsCount; i++)
             {
                 CellRangeAddress range = sheet.GetMergedRegion(i);
                 if (range.FirstRow >= rowNum && range.FirstColumn <= colNum)
@@ -204,10 +204,8 @@ namespace Tubumu.Utils.Extensions
         /// <param name="outPath"></param>
         public static void SaveExcelFile(this IWorkbook wb, string outPath)
         {
-            using (var fs = new FileStream(outPath, FileMode.Create, FileAccess.Write))
-            {
-                wb.Write(fs);
-            }
+            using var fs = new FileStream(outPath, FileMode.Create, FileAccess.Write);
+            wb.Write(fs);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Tubumu.Utils.Extensions.Ip
             var bytes = ip.GetAddressBytes();
             for (int i = 0; i < bytes.Length; i++)
             {
-                byte f = bytes[i];
+                var f = bytes[i];
                 v += f << 8 * x--;
             }
             return v;
@@ -39,12 +39,12 @@ namespace Tubumu.Utils.Extensions.Ip
         /// <returns></returns>
         public static long ToInt64(this IPAddress ip)
         {
-            int x = 3;
-            long v = 0;
+            var x = 3;
+            var v = 0L;
             var bytes = ip.GetAddressBytes();
             for (var i = 0; i < bytes.Length; i++)
             {
-                byte f = bytes[i];
+                var f = bytes[i];
                 v += (long)f << 8 * x--;
             }
             return v;

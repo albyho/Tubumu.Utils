@@ -149,10 +149,8 @@ namespace Tubumu.Utils.Extensions.Object
                 try
                 {
                     var serializer = new XmlSerializer(type);
-                    using (var reader = new StringReader(serializedObject))
-                    {
-                        filledObject = serializer.Deserialize(reader);
-                    }
+                    using var reader = new StringReader(serializedObject);
+                    filledObject = serializer.Deserialize(reader);
                 }
                 catch(Exception ex)
                 {
@@ -171,7 +169,7 @@ namespace Tubumu.Utils.Extensions.Object
         /// <returns></returns>
         public static string ToXml(this object source, bool noneXsn = false)
         {
-            string serializedObject = String.Empty;
+            var serializedObject = string.Empty;
 
             if (source != null)
             {
@@ -192,18 +190,16 @@ namespace Tubumu.Utils.Extensions.Object
 
                     //去除默认命名空间
                     var xsn = new XmlSerializerNamespaces();
-                    xsn.Add(String.Empty, String.Empty);
+                    xsn.Add(string.Empty, string.Empty);
 
                     serializer.Serialize(xmlWriter, source, xsn);
                     return sb.ToString();
                 }
                 else
                 {
-                    using (var writer = new StringWriter())
-                    {
-                        serializer.Serialize(writer, source);
-                        return writer.ToString();
-                    }
+                    using var writer = new StringWriter();
+                    serializer.Serialize(writer, source);
+                    return writer.ToString();
                 }
             }
             return serializedObject;

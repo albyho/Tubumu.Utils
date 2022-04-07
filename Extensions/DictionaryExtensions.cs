@@ -164,7 +164,7 @@ namespace Tubumu.Utils.Extensions
             {
                 throw new ArgumentNullException(nameof(obj));
             }
-            int hash = 0;
+            var hash = 0;
             foreach (var kvp in obj)
             {
                 hash ^= kvp.Key.GetHashCode();

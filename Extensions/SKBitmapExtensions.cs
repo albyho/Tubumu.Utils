@@ -24,24 +24,20 @@ namespace Tubumu.Utils.Extensions
             Directory.CreateDirectory(Path.GetDirectoryName(outputFilePath)!);
             var format = GetFormat(outputFilePath);
 
-            using (var inputStream = new SKManagedStream(imageStream))
-            using (var codec = SKCodec.Create(inputStream))
-            using (var original = SKBitmap.Decode(codec))
-            using (var image = HandleOrientation(original, codec.EncodedOrigin))
-            {
-                int width = outputWidth ?? WidthMax;
-                width = width > image.Width ? image.Width : width;
-                int height = (int)Math.Round(width * ((float)image.Height / image.Width));
+            using var inputStream = new SKManagedStream(imageStream);
+            using var codec = SKCodec.Create(inputStream);
+            using var original = SKBitmap.Decode(codec);
+            using var image = HandleOrientation(original, codec.EncodedOrigin);
+            var width = outputWidth ?? WidthMax;
+            width = width > image.Width ? image.Width : width;
+            var height = (int)Math.Round(width * ((float)image.Height / image.Width));
 
-                var info = new SKImageInfo(width, height);
-                using (var resized = image.Resize(info, SKFilterQuality.Medium))
-                using (var thumb = SKImage.FromBitmap(resized))
-                using (var fs = new FileStream(outputFilePath, FileMode.CreateNew, FileAccess.ReadWrite))
-                {
-                    thumb.Encode(format, Quality)
-                         .SaveTo(fs);
-                }
-            }
+            var info = new SKImageInfo(width, height);
+            using var resized = image.Resize(info, SKFilterQuality.Medium);
+            using var thumb = SKImage.FromBitmap(resized);
+            using var fs = new FileStream(outputFilePath, FileMode.CreateNew, FileAccess.ReadWrite);
+            thumb.Encode(format, Quality)
+                 .SaveTo(fs);
         }
 
         /// <summary>
@@ -67,19 +63,18 @@ namespace Tubumu.Utils.Extensions
             {
                 foreach (var width in widths)
                 {
-                    int height = (int)Math.Round(width * ((float)image.Height / image.Width));
+                    var height = (int)Math.Round(width * ((float)image.Height / image.Width));
 
-                    string thumbnailPath = Path.Combine(folder, $"{displayName}-{width}x{height}{ext}");
+                    var thumbnailPath = Path.Combine(folder, $"{displayName}-{width}x{height}{ext}");
                     result.Add(thumbnailPath);
                     var info = new SKImageInfo(width, height);
 
-                    using (var resized = image.Resize(info, SKFilterQuality.Medium))
-                    using (var thumb = SKImage.FromBitmap(resized))
-                    using (var fs = new FileStream(thumbnailPath, FileMode.CreateNew, FileAccess.ReadWrite))
-                    {
-                        thumb.Encode(format, Quality)
-                             .SaveTo(fs);
-                    }
+                    var sKBitmap = image.Resize(info, SKFilterQuality.Medium);
+                    using var resized = sKBitmap;
+                    using var thumb = SKImage.FromBitmap(resized);
+                    using var fs = new FileStream(thumbnailPath, FileMode.CreateNew, FileAccess.ReadWrite);
+                    thumb.Encode(format, Quality)
+                         .SaveTo(fs);
                 }
             }
             return result.ToArray();

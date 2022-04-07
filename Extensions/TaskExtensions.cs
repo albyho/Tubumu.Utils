@@ -24,25 +24,23 @@ namespace Tubumu.Utils.Extensions
         /// </returns>
         public static async Task WithTimeout(this Task task, TimeSpan timeout, Action? cancelled = null)
         {
-            using (var timerCancellation = new CancellationTokenSource())
+            using var timerCancellation = new CancellationTokenSource();
+            Task timeoutTask = Task.Delay(timeout, timerCancellation.Token);
+            Task firstCompletedTask = await Task.WhenAny(task, timeoutTask).ConfigureAwait(false);
+            if (firstCompletedTask == timeoutTask)
             {
-                Task timeoutTask = Task.Delay(timeout, timerCancellation.Token);
-                Task firstCompletedTask = await Task.WhenAny(task, timeoutTask).ConfigureAwait(false);
-                if (firstCompletedTask == timeoutTask)
+                if (cancelled == null)
                 {
-                    if (cancelled == null)
-                    {
-                        throw new TimeoutException();
-                    }
-                    cancelled();
+                    throw new TimeoutException();
                 }
-
-                // The timeout did not elapse, so cancel the timer to recover system resources.
-                timerCancellation.Cancel();
-
-                // re-throw any exceptions from the completed task.
-                await task.ConfigureAwait(false);
+                cancelled();
             }
+
+            // The timeout did not elapse, so cancel the timer to recover system resources.
+            timerCancellation.Cancel();
+
+            // re-throw any exceptions from the completed task.
+            await task.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -329,17 +327,17 @@ namespace Tubumu.Utils.Extensions
         /// <summary>
         /// The manual reset event signaling completion.
         /// </summary>
-        private readonly ManualResetEvent manualResetEvent;
+        private readonly ManualResetEvent _manualResetEvent;
 
         /// <summary>
         /// The exception thrown by the asynchronous operation.
         /// </summary>
-        private Exception? exception;
+        private Exception? _exception;
 
         /// <summary>
         /// The result of the asynchronous operation.
         /// </summary>
-        private TResult? result;
+        private TResult? _result;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronousAwaiter{TResult}"/> class.
@@ -349,8 +347,8 @@ namespace Tubumu.Utils.Extensions
         /// </param>
         public SynchronousAwaiter(Task<TResult> task)
         {
-            this.manualResetEvent = new ManualResetEvent(false);
-            this.WaitFor(task);
+            _manualResetEvent = new ManualResetEvent(false);
+            WaitFor(task);
         }
 
         /// <summary>
@@ -361,14 +359,14 @@ namespace Tubumu.Utils.Extensions
         /// </param>
         public SynchronousAwaiter(ValueTask<TResult> task)
         {
-            this.manualResetEvent = new ManualResetEvent(false);
-            this.WaitFor(task);
+            _manualResetEvent = new ManualResetEvent(false);
+            WaitFor(task);
         }
 
         /// <summary>
         /// Gets a value indicating whether the operation is complete.
         /// </summary>
-        public bool IsComplete => this.manualResetEvent.WaitOne(0);
+        public bool IsComplete => _manualResetEvent.WaitOne(0);
 
         /// <summary>
         /// Synchronously get the result of an asynchronous operation.
@@ -378,8 +376,8 @@ namespace Tubumu.Utils.Extensions
         /// </returns>
         public TResult? GetResult()
         {
-            this.manualResetEvent.WaitOne();
-            return this.exception != null ? throw this.exception : this.result;
+            _manualResetEvent.WaitOne();
+            return _exception != null ? throw _exception : _result;
         }
 
         /// <summary>
@@ -393,9 +391,9 @@ namespace Tubumu.Utils.Extensions
         /// </returns>
         public bool TryGetResult(out TResult? operationResult)
         {
-            if (this.IsComplete)
+            if (IsComplete)
             {
-                operationResult = this.exception != null ? throw this.exception : this.result;
+                operationResult = _exception != null ? throw _exception : _result;
                 return true;
             }
 
@@ -413,15 +411,15 @@ namespace Tubumu.Utils.Extensions
         {
             try
             {
-                this.result = await task.ConfigureAwait(false);
+                _result = await task.ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                this.exception = exception;
+                _exception = exception;
             }
             finally
             {
-                this.manualResetEvent.Set();
+                _manualResetEvent.Set();
             }
         }
 
@@ -435,15 +433,15 @@ namespace Tubumu.Utils.Extensions
         {
             try
             {
-                this.result = await task.ConfigureAwait(false);
+                _result = await task.ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                this.exception = exception;
+                _exception = exception;
             }
             finally
             {
-                this.manualResetEvent.Set();
+                _manualResetEvent.Set();
             }
         }
     }
@@ -456,12 +454,12 @@ namespace Tubumu.Utils.Extensions
         /// <summary>
         /// The manual reset event signaling completion.
         /// </summary>
-        private readonly ManualResetEvent manualResetEvent = new ManualResetEvent(false);
+        private readonly ManualResetEvent _manualResetEvent;
 
         /// <summary>
         /// The exception thrown by the asynchronous operation.
         /// </summary>
-        private Exception? exception;
+        private Exception? _exception;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronousAwaiter{TResult}"/> class.
@@ -474,8 +472,8 @@ namespace Tubumu.Utils.Extensions
         /// </param>
         public SynchronousAwaiter(Task task, bool ignoreCancellation = false)
         {
-            this.manualResetEvent = new ManualResetEvent(false);
-            this.WaitFor(task, ignoreCancellation);
+            _manualResetEvent = new ManualResetEvent(false);
+            WaitFor(task, ignoreCancellation);
         }
 
         /// <summary>
@@ -489,24 +487,24 @@ namespace Tubumu.Utils.Extensions
         /// </param>
         public SynchronousAwaiter(ValueTask task, bool ignoreCancellation = false)
         {
-            this.manualResetEvent = new ManualResetEvent(false);
-            this.WaitFor(task, ignoreCancellation);
+            _manualResetEvent = new ManualResetEvent(false);
+            WaitFor(task, ignoreCancellation);
         }
 
         /// <summary>
         /// Gets a value indicating whether the operation is complete.
         /// </summary>
-        public bool IsComplete => this.manualResetEvent.WaitOne(0);
+        public bool IsComplete => _manualResetEvent.WaitOne(0);
 
         /// <summary>
         /// Synchronously get the result of an asynchronous operation.
         /// </summary>
         public void GetResult()
         {
-            this.manualResetEvent.WaitOne();
-            if (this.exception != null)
+            _manualResetEvent.WaitOne();
+            if (_exception != null)
             {
-                throw this.exception;
+                throw _exception;
             }
         }
 
@@ -530,11 +528,11 @@ namespace Tubumu.Utils.Extensions
             }
             catch (Exception exception)
             {
-                this.exception = exception;
+                _exception = exception;
             }
             finally
             {
-                this.manualResetEvent.Set();
+                _manualResetEvent.Set();
             }
         }
 
@@ -558,11 +556,11 @@ namespace Tubumu.Utils.Extensions
             }
             catch (Exception exception)
             {
-                this.exception = exception;
+                _exception = exception;
             }
             finally
             {
-                this.manualResetEvent.Set();
+                _manualResetEvent.Set();
             }
         }
     }

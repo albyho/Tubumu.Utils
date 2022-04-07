@@ -62,7 +62,7 @@ namespace Tubumu.Utils.Extensions
         }
 
         /// <summary>
-        /// 对String型序列的每个元素进行字符串替换操作
+        /// 对 String 型序列的每个元素进行字符串替换操作
         /// </summary>
         /// <param name="source">源序列</param>
         /// <param name="oldValue">查找字符串</param>
@@ -74,7 +74,7 @@ namespace Tubumu.Utils.Extensions
         }
 
         /// <summary>
-        /// 将序列转化为ReadOnlyCollection
+        /// 将序列转化为 ReadOnlyCollection
         /// </summary>
         /// <typeparam name="T">类型参数</typeparam>
         /// <param name="source">源序列</param>
