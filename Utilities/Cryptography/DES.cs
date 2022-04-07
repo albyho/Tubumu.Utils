@@ -39,13 +39,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
 
             var keyBytes = EnsureKey(key);
             var keyIV = keyBytes;
-            var provider = new DESCryptoServiceProvider
-            {
-                Mode = mode,
-                Padding = paddingMode
-            };
+            var des = TripleDES.Create();
+            des.Mode = mode;
+            des.Padding = paddingMode;
             var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, provider.CreateEncryptor(keyBytes, keyIV), CryptoStreamMode.Write);
+            var cStream = new CryptoStream(mStream, des.CreateEncryptor(keyBytes, keyIV), CryptoStreamMode.Write);
             cStream.Write(inputByteArray, 0, inputByteArray.Length);
             cStream.FlushFinalBlock();
 
@@ -129,13 +127,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
             var keyBytes = EnsureKey(key);
             var keyIV = keyBytes;
 
-            var provider = new DESCryptoServiceProvider
-            {
-                Mode = CipherMode.ECB,
-                Padding = paddingMode
-            };
-            var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, provider.CreateEncryptor(keyBytes, keyIV), CryptoStreamMode.Write);
+            var des = TripleDES.Create();
+            des.Mode = CipherMode.ECB;
+            des.Padding = paddingMode;
+            using var mStream = new MemoryStream();
+            using var cStream = new CryptoStream(mStream, des.CreateEncryptor(keyBytes, keyIV), CryptoStreamMode.Write);
             cStream.Write(inputByteArray, 0, inputByteArray.Length);
             cStream.FlushFinalBlock();
 
@@ -176,13 +172,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
 
             var keyBytes = EnsureKey(key);
             var keyIV = keyBytes;
-            var provider = new DESCryptoServiceProvider
-            {
-                Mode = mode,
-                Padding = paddingMode
-            };
-            var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, provider.CreateDecryptor(keyBytes, keyIV), CryptoStreamMode.Write);
+            var des = TripleDES.Create();
+            des.Mode = mode;
+            des.Padding = paddingMode;
+            using var mStream = new MemoryStream();
+            using var cStream = new CryptoStream(mStream, des.CreateDecryptor(keyBytes, keyIV), CryptoStreamMode.Write);
             cStream.Write(inputByteArray, 0, inputByteArray.Length);
             cStream.FlushFinalBlock();
 
@@ -251,13 +245,11 @@ namespace Tubumu.Utils.Utilities.Cryptography
             var inputByteArray = Convert.FromBase64String(decryptBase64String);
             var keyBytes = EnsureKey(key);
             var keyIV = keyBytes;
-            var provider = new DESCryptoServiceProvider
-            {
-                Mode = CipherMode.ECB,
-                Padding = paddingMode
-            };
-            var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, provider.CreateDecryptor(keyBytes, keyIV), CryptoStreamMode.Write);
+            var des = TripleDES.Create();
+            des.Mode = CipherMode.ECB;
+            des.Padding = paddingMode;
+            using var mStream = new MemoryStream();
+            using var cStream = new CryptoStream(mStream, des.CreateDecryptor(keyBytes, keyIV), CryptoStreamMode.Write);
             cStream.Write(inputByteArray, 0, inputByteArray.Length);
             cStream.FlushFinalBlock();
 
@@ -273,7 +265,7 @@ namespace Tubumu.Utils.Utilities.Cryptography
         public static string DecryptFromHexToString(string decryptString, string? key = null)
         {
             var decryptBuffer = new byte[decryptString.Length / 2];
-            for (int i = 0; i < decryptBuffer.Length; i++)
+            for (var i = 0; i < decryptBuffer.Length; i++)
             {
                 decryptBuffer[i] = Convert.ToByte(decryptString.Substring(i * 2, 2), 16);
             }

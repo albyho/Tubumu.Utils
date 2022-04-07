@@ -18,9 +18,8 @@ namespace Tubumu.Utils.Utilities.Cryptography
         /// <returns></returns>
         public static byte[] EncryptFromByteArrayToByteArray(Byte[] inputByteArray)
         {
-            //var md5 = System.Security.Cryptography.MD5.Create();
-            var provider = new MD5CryptoServiceProvider();
-            return provider.ComputeHash(inputByteArray);
+            var md5 = System.Security.Cryptography.MD5.Create();
+            return md5.ComputeHash(inputByteArray);
         }
 
         /// <summary>

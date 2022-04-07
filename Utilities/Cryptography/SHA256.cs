@@ -45,7 +45,7 @@ namespace Tubumu.Utils.Utilities.Cryptography
                 throw new ArgumentNullException(nameof(salt));
             }
             var salted = Encoding.UTF8.GetBytes(String.Concat(rawString, salt));
-            var hasher = new SHA256Managed();
+            var hasher = System.Security.Cryptography.SHA256.Create();
             var hashed = hasher.ComputeHash(salted);
             return hashed;
         }

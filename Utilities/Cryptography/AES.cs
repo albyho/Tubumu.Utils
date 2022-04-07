@@ -32,7 +32,7 @@ namespace Tubumu.Utils.Utilities.Cryptography
             }
 
             //分组加密算法
-            var aes = Rijndael.Create();
+            var aes = Aes.Create();
             aes.Padding = padding;
             aes.Mode = mode;
             aes.Key = EnsureKey(key);
@@ -64,7 +64,7 @@ namespace Tubumu.Utils.Utilities.Cryptography
             }
 
             //分组加密算法
-            var aes = Rijndael.Create();
+            var aes = Aes.Create();
             aes.Padding = PaddingMode.PKCS7;
             aes.Mode = CipherMode.CBC;
             aes.Key = EnsureKey(key);
@@ -143,7 +143,7 @@ namespace Tubumu.Utils.Utilities.Cryptography
                 throw new ArgumentNullException(nameof(inputByteArray));
             }
 
-            var aes = Rijndael.Create();
+            var aes = Aes.Create();
             aes.Padding = PaddingMode.PKCS7;
             aes.Mode = CipherMode.CBC;
             aes.Key = EnsureKey(key);
