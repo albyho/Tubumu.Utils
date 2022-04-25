@@ -363,7 +363,7 @@ namespace Tubumu.Utils.Extensions
         {
             if (sortInfo.Sort.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException(nameof(sortInfo.Sort));
+                throw new ArgumentException($"{nameof(sortInfo.Sort)} can't be null or white space.");
             }
             return Order(source, sortInfo.Sort!, sortInfo.SortDir == SortDirection.DESC, anotherLevel);
         }
